@@ -12,9 +12,8 @@ var intermediatesRevealed = {
 }
 
 
-
 // Fetch reagents from JSON file
-fetch("https://raw.githubusercontent.com/justakevinn/synthordle/6c18a5b53300d18d5f3100282686e18bf00ab59a/reactions.json")
+fetch("https://raw.githubusercontent.com/justakevinn.github.io/858ee98d23335ae065df64e279fcf4436b6b9371/reactions.json")
   .then(response => response.json())
   .then(data => {
     allReagents = data.reagents; // Populate reagentsList
