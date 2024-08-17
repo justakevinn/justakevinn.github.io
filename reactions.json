@@ -1,0 +1,19 @@
+{
+  "reactions": [
+    {
+      "ID": "0",
+      "sequence": ["rxn0-0", "rxn0-1", "rxn0-2", "rxn0-3"]
+    },
+    {
+      "ID": "1",
+      "sequence": ["rxn1-0", "rxn1-1", "rxn1-2", "rxn1-3"]
+    },
+    {
+      "ID": "2",
+      "sequence": ["rxn2-0", "rxn2-1", "rxn2-2", "rxn2-3"]
+    }
+  ],
+  "reagents": ["rxn0-0", "rxn0-1", "rxn0-2", "rxn0-3", 
+               "rxn1-0", "rxn1-1", "rxn1-2", "rxn1-3",
+               "rxn2-0", "rxn2-1", "rxn2-2", "rxn2-3"]
+}
