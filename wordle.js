@@ -13,7 +13,7 @@ var intermediatesRevealed = {
 
 
 // Fetch reagents from JSON file
-fetch("https://raw.githubusercontent.com/justakevinn.github.io/858ee98d23335ae065df64e279fcf4436b6b9371/reactions.json")
+fetch("reactions.json")
   .then(response => response.json())
   .then(data => {
     allReagents = data.reagents; // Populate reagentsList
