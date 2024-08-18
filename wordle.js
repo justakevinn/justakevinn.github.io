@@ -2,7 +2,7 @@ var height; //number of guesses
 var width = 4; //number of reactions
 var row = 0; //current guess (current attempt #)
 var col = 0; //current "letter" for the attempt
-var numChoices = 4; //Number of reagents shown on the "keyboard"
+var numChoices = 12; //Number of reagents shown on the "keyboard"
 var gameOver = false;
 var reactionID;
 
@@ -74,10 +74,11 @@ function createColumn(data, columnNumber) {
     box.className = 'box';
     box.id = rowNumber.toString() + "-" + columnNumber.toString();
     rowNumber++;
-    column.appendChild(box); //adding each box to the column
+    column.appendChild(box); // Add each box to the column
   });
   return column;
 }
+
 
 // Function to create boxes for intermediates
 function createIntermediate(columnNumber) {
@@ -135,7 +136,7 @@ function createReagents(item) {
 
 function askForNumber() {
   let userInput = prompt("How many guesses would you like? (Choose a number between 1 and 5):", "4");
-  
+
   // Convert the input to an integer and validate it
   let numGuesses = parseInt(userInput);
 
@@ -150,7 +151,7 @@ function askForNumber() {
 
 function askForReactionID(length) {
   let userInput = prompt("Enter Reaction ID):", "0");
-  
+
   // Convert the input to an integer and validate it
   let ID = parseInt(userInput);
 
@@ -171,22 +172,28 @@ function update() {
     (function (c) {
       setTimeout(() => {
         let currTile = document.getElementById(row.toString() + "-" + c.toString());
-        //console.log("currTile: " + row.toString() + "-" + c.toString());
         currTile.classList.add("flip");
-        let keyboardKey = document.getElementById(currTile.title); 
+        let keyboardKey = document.getElementById(currTile.title);
         setTimeout(() => {
           let letter = currTile.title;
-          if (answer[c] == letter) {
+          if (answer[c] === letter) {
+            // Remove "present" and "absent" before marking as "correct"
+            keyboardKey.classList.remove("present", "absent");
+
             currTile.classList.add("correct");
             keyboardKey.classList.add("correct");
             correct += 1;
             revealIntermediate(c);
           } else if (answer.includes(letter)) {
+            if (!keyboardKey.classList.contains("correct")) {
+              keyboardKey.classList.add("present");
+            }
             currTile.classList.add("present");
-            keyboardKey.classList.add("present");
           } else {
+            if (!keyboardKey.classList.contains("correct") && !keyboardKey.classList.contains("present")) {
+              keyboardKey.classList.add("absent");
+            }
             currTile.classList.add("absent");
-            keyboardKey.classList.add("absent");
           }
         }, 250); // Wait until the tile is halfway through the flip before changing the class
       }, c * 1000); // Delay for each tile to flip sequentially
@@ -202,6 +209,7 @@ function update() {
     col = 0; // Reset column
   }, width * 1000); // Delay by the total duration of all flips
 }
+
 
 function checkGameover() {
   if (gameOver) {
@@ -221,6 +229,7 @@ function revealIntermediate(c) {
     let path = "Reactions/" + reactionID.toString() + "/int0.png";
     intermediate0.innerHTML = `<img src=` + path + ` alt="${intermediate0}">`;
     intermediate0.classList.add("flip"); // Add flip class to trigger animation
+    intermediate0.style.border = 'none';
     intermediatesRevealed.first = true;
 
   }
@@ -229,6 +238,7 @@ function revealIntermediate(c) {
     let path = "Reactions/" + reactionID.toString() + "/int1.png";
     intermediate1.innerHTML = `<img src=` + path + ` alt="${intermediate1}">`;
     intermediate1.classList.add("flip"); // Add flip class to trigger animation
+    intermediate1.style.border = 'none'
     intermediatesRevealed.second = true;
   }
   else if (c == 2 && !intermediatesRevealed.third) {
@@ -236,6 +246,7 @@ function revealIntermediate(c) {
     let path = "Reactions/" + reactionID.toString() + "/int2.png";
     intermediate2.innerHTML = `<img src=` + path + ` alt="${intermediate2}">`;
     intermediate2.classList.add("flip"); // Add flip class to trigger animation
+    intermediate2.style.border = 'none'
     intermediatesRevealed.third = true;
   }
 }
@@ -280,13 +291,11 @@ function initialize() {
   document.addEventListener("click", (e) => {
     if (gameOver || !takingInput) return;
     if (e.target.classList.contains("reagent")) {
-      console.log(e.target);
       if (col < width) {
         let currTile = document.getElementById(row.toString() + "-" + col.toString());
         let path = "Reagents/" + e.target.id + ".png";
         currTile.innerHTML = `<img src=` + path + ` alt="${e.target.id}">`
         currTile.title = e.target.id;
-        console.log("title: " + currTile.title);
         col += 1;
       }
     }
