@@ -14,12 +14,10 @@ Save the reagents in the "Reagents" folder and name them with the following synt
 Things to do (consider doing):
 
     Generate a seed based on the current time so that the answer cannot be simply deduced by refreshing a page multiple times
-    Take input from user to choose which reaction to use
     Remove hovering text that gives hints to the solution 
-    Disable user input while animations are occuring (during update())
-    Change color for the boxes, colors are dark for a white background
     Label the product and starting material - maybe also add a retrosynthetic arrow
     Scaling all objects based on browser window size (might make the game mobile compatible?)
+    Reveal Answer when game over
 
 
 
