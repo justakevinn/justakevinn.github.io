@@ -1,9 +1,9 @@
 var height = 4; //number of guesses
 var width = 4; //number of reactions
-var row = 0; //current guess (attempt #)
+var row = 0; //current guess (current attempt #)
 var col = 0; //current "letter" for the attempt
+var numChoices = 10; //Number of reagents shown on the "keyboard"
 var gameOver = false;
-var numChoices = 10;
 
 var intermediatesRevealed = {
   first: false,
@@ -11,13 +11,12 @@ var intermediatesRevealed = {
   third: false
 }
 
-
-// Fetch reagents from JSON file
+// Fetch reagents from JSON file and initialize the board.
 fetch("reactions.json")
   .then(response => response.json())
   .then(data => {
     allReagents = data.reagents; // Populate reagentsList
-    reactionID = Math.floor(Math.random() * (data.reactions.length));
+    reactionID = getRandomInt(data.reactions.length);
     answer = data.reactions[reactionID].sequence;
     reagents = generateReagents(allReagents, answer, numChoices);
     initialize(); // Initialize the board after fetching data
@@ -47,11 +46,6 @@ function generateReagents(allReagents, answer, x) {
   shuffleArray(reagents);
   return reagents;
 }
-
-
-
-
-
 
 //Create 2D array for createColumn to use
 function create2DArray(){
