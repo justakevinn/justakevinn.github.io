@@ -329,7 +329,8 @@ function initialize() {
     const fragment = document.createDocumentFragment();
 
     // Add product before the first column
-    fragment.appendChild(createProduct());
+
+    fragment.appendChild(createStart());
 
     // Add columns and intermediates
     gridData.forEach((columnData, index) => {
@@ -341,7 +342,7 @@ function initialize() {
     });
 
     // Add starting compound after the last column
-    fragment.appendChild(createStart());
+    fragment.appendChild(createProduct());
     board.appendChild(fragment);
 
     // Create Reagent Keyboard

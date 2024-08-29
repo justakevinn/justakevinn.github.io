@@ -28,8 +28,6 @@ Refreshing the page multiple times to see which answers in the keyboard always a
 
 Hovering above the boxes and interpreting the meaning of "rxn0_1"
 
-Scaling the site to fit all browser window sizes (would allow for mobile compatability)
-
 Need a good way to reveal the answer when the game is over.
 
 
