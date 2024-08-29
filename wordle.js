@@ -41,12 +41,11 @@ function shuffleArray(array) {
 
 function generateReagents(allReagents, answer, x) {
   let reagents = [...answer];
-  for (let i = 0; i < allReagents.length && reagents.length < x; i++) {
-    const reagent = allReagents[i];
-    if (!answer.includes(reagent)) {
+  allReagents.forEach(reagent => {
+    if (reagents.length < x && !answer.includes(reagent)){
       reagents.push(reagent);
     }
-  }
+  });
   shuffleArray(reagents);
   return reagents;
 }
@@ -90,24 +89,50 @@ function createIntermediate(columnNumber) {
 
 // Functions to assign and display SM/Product
 function createProduct() {
-  const product = document.createElement('span');
-  let path = "Reactions/" + reactionID.toString() + "/product.png";
-  product.className = 'product';
-  product.innerHTML = `<img src=` + path + ` alt="${product}">`;
+  const product = document.createElement('span'); // Change 'span' to 'div' for better layout control
+  product.classList.add('product'); // Add 'start' class for styling
+
+  // Create the image element
+  const image = document.createElement('img');
+  image.src = `Reactions/${reactionID.toString()}/product.png`;
+  image.alt = 'Product Image'; // Update alt text for accessibility
+
+  // Create the text element
+  const text = document.createElement('div');
+  text.classList.add('text'); // Add 'text' class for styling
+  text.textContent = 'TGT'; // Replace with dynamic text if needed
+
+  // Append the image and text to the start element
+  product.appendChild(image);
+  product.appendChild(text);
+
   return product;
 }
 
 function createStart() {
-  const start = document.createElement('span');
-  let path = "Reactions/" + reactionID.toString() + "/sm.png";
-  start.className = 'start';
-  start.innerHTML = `<img src=` + path + ` alt="${start}">`;
+  const start = document.createElement('div'); // Change 'span' to 'div' for better layout control
+  start.classList.add('start'); // Add 'start' class for styling
+
+  // Create the image element
+  const image = document.createElement('img');
+  image.src = `Reactions/${reactionID.toString()}/sm.png`;
+  image.alt = 'Start Image'; // Update alt text for accessibility
+
+  // Create the text element
+  const text = document.createElement('div');
+  text.classList.add('text'); // Add 'text' class for styling
+  text.textContent = 'SM'; // Replace with dynamic text if needed
+
+  // Append the image and text to the start element
+  start.appendChild(image);
+  start.appendChild(text);
+
   return start;
 }
 //Functions to create keyboard buttons
 function createEnter() {
   const enter = document.createElement('span');
-  enter.className = 'enter-button img';
+  enter.classList = 'enter-button img';
   let path = "enter.png"
   enter.innerHTML = `<img src=` + path + ` alt="${enter}">`;
   enter.id = path;
@@ -116,7 +141,7 @@ function createEnter() {
 
 function createDelete() {
   const deletebutton = document.createElement('span');
-  deletebutton.className = 'delete-button img';
+  deletebutton.classList = 'delete-button img';
   let path = "backspace.png"
   deletebutton.innerHTML = `<img src=` + path + ` alt="${deletebutton}">`;
   deletebutton.id = path;
@@ -126,7 +151,7 @@ function createDelete() {
 function createReagents(item) {
   const reagent = document.createElement('span');
   let path = "Reagents/" + item + ".png";
-  reagent.className = 'reagent';
+  reagent.classList = 'reagent img';
   reagent.innerHTML = `<img src=` + path + ` alt="${item}">`;
   reagent.id = item;
   return reagent
@@ -251,6 +276,46 @@ function revealIntermediate(c) {
   }
 }
 
+function handleUserInput(e) {
+  if (gameOver || !takingInput) return;
+
+  const targetClass = e.target.classList;
+
+  if (targetClass.contains("reagent")) {
+      handleReagentClick(e.target);
+  } else if (targetClass.contains("delete-button")) {
+      handleDeleteClick();
+  } else if (targetClass.contains("enter-button")) {
+      handleEnterClick();
+  }
+}
+
+function handleReagentClick(target) {
+  if (col < width) {
+      let currTile = document.getElementById(`${row}-${col}`);
+      currTile.innerHTML = `<img src="Reagents/${target.id}.png" alt="${target.id}">`;
+      currTile.title = target.id;
+      col++;
+  }
+}
+
+function handleDeleteClick() {
+  if (col > 0) {
+      col--;
+      let currTile = document.getElementById(`${row}-${col}`);
+      currTile.innerText = "";
+  }
+}
+
+function handleEnterClick() {
+  if (col === width) {
+      update();
+  } else {
+      alert("Please enter 4 reaction conditions before submitting your guess.");
+  }
+}
+
+
 
 
 
@@ -258,62 +323,36 @@ function revealIntermediate(c) {
 //------------------------------ INITIALIZE  -------------------------------//
 function initialize() {
   const gridData = create2DArray();
+    const board = document.getElementById('board');
+    const keyboard = document.getElementById("keyboard");
 
-  const board = document.getElementById('board');
-  const keyboard = document.getElementById("keyboard")
+    const fragment = document.createDocumentFragment();
 
-  // Add product before the first column
-  board.appendChild(createProduct());
+    // Add product before the first column
+    fragment.appendChild(createProduct());
 
-  // Add columns
-  let columnNumber = 0
-  gridData.forEach((columnData, index) => {
-    const column = createColumn(columnData, columnNumber);
-    board.appendChild(column);
-    // Add grey box before if not the last column
-    if (index < gridData.length - 1) {
-      board.appendChild(createIntermediate(columnNumber));
-    }
-    columnNumber++;
-  });
+    // Add columns and intermediates
+    gridData.forEach((columnData, index) => {
+        const column = createColumn(columnData, index);
+        fragment.appendChild(column);
+        if (index < gridData.length - 1) {
+            fragment.appendChild(createIntermediate(index));
+        }
+    });
 
-  // Add starting compound after the last column
-  board.appendChild(createStart());
+    // Add starting compound after the last column
+    fragment.appendChild(createStart());
+    board.appendChild(fragment);
 
-  // Create Reagent Keyboard
-  reagents.forEach(item => {
-    keyboard.appendChild(createReagents(item));
-  })
-  keyboard.appendChild(createEnter());
-  keyboard.appendChild(createDelete());
+    // Create Reagent Keyboard
+    const keyboardFragment = document.createDocumentFragment();
+    reagents.forEach(item => {
+        keyboardFragment.appendChild(createReagents(item));
+    });
+    keyboardFragment.appendChild(createEnter());
+    keyboardFragment.appendChild(createDelete());
+    keyboard.appendChild(keyboardFragment);
 
-  //Actions
-  document.addEventListener("click", (e) => {
-    if (gameOver || !takingInput) return;
-    if (e.target.classList.contains("reagent")) {
-      if (col < width) {
-        let currTile = document.getElementById(row.toString() + "-" + col.toString());
-        let path = "Reagents/" + e.target.id + ".png";
-        currTile.innerHTML = `<img src=` + path + ` alt="${e.target.id}">`
-        currTile.title = e.target.id;
-        col += 1;
-      }
-    }
-
-    else if (e.target.classList.contains("delete-button")) {
-      if (0 < col && col <= width) {
-        col -= 1;
-      }
-      let currTile = document.getElementById(row.toString() + "-" + col.toString());
-      currTile.innerText = "";
-    }
-
-    else if (e.target.classList.contains("enter-button")) {
-      if (col != width) {
-        alert("Please enter 4 reaction conditions before submitting your guess.");
-      } else {
-        update();
-      }
-    }
-  });
+  // Event listeners
+  document.addEventListener("click", handleUserInput)
 }
