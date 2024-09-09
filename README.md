@@ -38,6 +38,9 @@ Creating a menu to make user input more aesthetically pleasing
 Need a good way to reveal the answer when the game is over.
 ---Kevin is working on this---
 
+Display Reference
+--Kevin is working on this--
+
 
 
 
