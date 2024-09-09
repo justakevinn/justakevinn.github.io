@@ -2,9 +2,11 @@ var height; //number of guesses
 var width = 4; //number of reactions
 var row = 0; //current guess (current attempt #)
 var col = 0; //current "letter" for the attempt
-var numChoices = 12; //Number of reagents shown on the "keyboard"
+var numChoices = 4; //Number of reagents shown on the "keyboard"
 var gameOver = false;
 var reactionID;
+var isForward = true; // Default is forward mode
+
 
 var intermediatesRevealed = {
   first: false,
@@ -18,10 +20,15 @@ var takingInput = true;
 fetch("reactions.json")
   .then(response => response.json())
   .then(data => {
+    askForDirection(); // Ask for direction before initializing
     allReagents = data.reagents; // Populate reagentsList
     height = askForNumber();
     reactionID = askForReactionID(data.reactions.length);
     answer = data.reactions[reactionID].sequence;
+    // Reverse the answer if in backward mode
+    if (!isForward) {
+      answer = answer.reverse();  // Reverse the sequence for backward mode
+    }
     reagents = generateReagents(allReagents, answer, numChoices);
     initialize(); // Initialize the board after fetching data
   })
@@ -42,7 +49,7 @@ function shuffleArray(array) {
 function generateReagents(allReagents, answer, x) {
   let reagents = [...answer];
   allReagents.forEach(reagent => {
-    if (reagents.length < x && !answer.includes(reagent)){
+    if (reagents.length < x && !answer.includes(reagent)) {
       reagents.push(reagent);
     }
   });
@@ -189,6 +196,15 @@ function askForReactionID(length) {
   }
 }
 
+function askForDirection() {
+  let direction = prompt("Choose the reaction direction: (forward or backward)", "forward");
+  if (direction.toLowerCase() === "backward") {
+    isForward = false;
+  } else {
+    isForward = true; // Default to forward if input is invalid
+  }
+}
+
 function update() {
   takingInput = false;
   let correct = 0;
@@ -247,33 +263,33 @@ function checkGameover() {
   }
 }
 
-// Functions to reveal intermediates
 function revealIntermediate(c) {
-  if (c == 0 && !intermediatesRevealed.first) {
-    let intermediate0 = document.getElementById("int0");
-    let path = "Reactions/" + reactionID.toString() + "/int0.png";
-    intermediate0.innerHTML = `<img src=` + path + ` alt="${intermediate0}">`;
-    intermediate0.classList.add("flip"); // Add flip class to trigger animation
-    intermediate0.style.border = 'none';
-    intermediatesRevealed.first = true;
+  if (isForward) {
+    if (c == 0 && !intermediatesRevealed.first) {
+      revealIntermediateHelper(0);
+    } else if (c == 1 && !intermediatesRevealed.second) {
+      revealIntermediateHelper(1);
+    } else if (c == 2 && !intermediatesRevealed.third) {
+      revealIntermediateHelper(2);
+    }
+  } else {
+    // Reverse the order for backward mode
+    if (c == 0 && !intermediatesRevealed.third) {
+      revealIntermediateHelper(2);
+    } else if (c == 1 && !intermediatesRevealed.second) {
+      revealIntermediateHelper(1);
+    } else if (c == 2 && !intermediatesRevealed.first) {
+      revealIntermediateHelper(0);
+    }
+  }
+}
 
-  }
-  else if (c == 1 && !intermediatesRevealed.second) {
-    let intermediate1 = document.getElementById("int1");
-    let path = "Reactions/" + reactionID.toString() + "/int1.png";
-    intermediate1.innerHTML = `<img src=` + path + ` alt="${intermediate1}">`;
-    intermediate1.classList.add("flip"); // Add flip class to trigger animation
-    intermediate1.style.border = 'none'
-    intermediatesRevealed.second = true;
-  }
-  else if (c == 2 && !intermediatesRevealed.third) {
-    let intermediate2 = document.getElementById("int2");
-    let path = "Reactions/" + reactionID.toString() + "/int2.png";
-    intermediate2.innerHTML = `<img src=` + path + ` alt="${intermediate2}">`;
-    intermediate2.classList.add("flip"); // Add flip class to trigger animation
-    intermediate2.style.border = 'none'
-    intermediatesRevealed.third = true;
-  }
+function revealIntermediateHelper(index) {
+  let intermediate = document.getElementById("int" + index);
+  let path = "Reactions/" + reactionID.toString() + "/int" + index + ".png";
+  intermediate.innerHTML = `<img src=` + path + ` alt="${intermediate}">`;
+  intermediate.classList.add("flip");
+  intermediate.style.border = 'none';
 }
 
 function handleUserInput(e) {
@@ -282,40 +298,38 @@ function handleUserInput(e) {
   const targetClass = e.target.classList;
 
   if (targetClass.contains("reagent")) {
-      handleReagentClick(e.target);
+    handleReagentClick(e.target);
   } else if (targetClass.contains("delete-button")) {
-      handleDeleteClick();
+    handleDeleteClick();
   } else if (targetClass.contains("enter-button")) {
-      handleEnterClick();
+    handleEnterClick();
   }
 }
 
 function handleReagentClick(target) {
   if (col < width) {
-      let currTile = document.getElementById(`${row}-${col}`);
-      currTile.innerHTML = `<img src="Reagents/${target.id}.png" alt="${target.id}">`;
-      currTile.title = target.id;
-      col++;
+    let currTile = document.getElementById(`${row}-${col}`);
+    currTile.innerHTML = `<img src="Reagents/${target.id}.png" alt="${target.id}">`;
+    currTile.title = target.id;
+    col++;
   }
 }
 
 function handleDeleteClick() {
   if (col > 0) {
-      col--;
-      let currTile = document.getElementById(`${row}-${col}`);
-      currTile.innerText = "";
+    col--;
+    let currTile = document.getElementById(`${row}-${col}`);
+    currTile.innerText = "";
   }
 }
 
 function handleEnterClick() {
   if (col === width) {
-      update();
+    update();
   } else {
-      alert("Please enter 4 reaction conditions before submitting your guess.");
+    alert("Please enter 4 reaction conditions before submitting your guess.");
   }
 }
-
-
 
 
 
@@ -329,20 +343,34 @@ function initialize() {
     const fragment = document.createDocumentFragment();
 
     // Add product before the first column
-
-    fragment.appendChild(createStart());
+    if (isForward){
+      fragment.appendChild(createStart());
+    } else {
+      fragment.appendChild(createProduct());
+    }
 
     // Add columns and intermediates
     gridData.forEach((columnData, index) => {
         const column = createColumn(columnData, index);
         fragment.appendChild(column);
-        if (index < gridData.length - 1) {
+        if (index < gridData.length - 1){
+          if(isForward){
             fragment.appendChild(createIntermediate(index));
+          }
+          else{
+            fragment.appendChild(createIntermediate(gridData.length - 2 - index));
+          }
         }
-    });
+      })
 
     // Add starting compound after the last column
-    fragment.appendChild(createProduct());
+    if (isForward) {
+      fragment.appendChild(createProduct()); // Add product (TGT) after last column in forward mode
+    } else {
+      fragment.appendChild(createStart()); // Add starting material (SM) after columns in backward mode
+    }
+
+    
     board.appendChild(fragment);
 
     // Create Reagent Keyboard
