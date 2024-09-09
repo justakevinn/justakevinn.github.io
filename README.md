@@ -3,7 +3,7 @@
 
 To put in new reactions:
 
-Create a new folder, and name it the next available integeer in the "Reactions" folder.
+Create a new folder, and name it the next available integer in the "Reactions" folder.
 
 Use Chemdraw to draw out the starting material, product, and each of the intermediates and individually save them as png files
     Names of files should be sm.png, product.png, int0.png, int1.png, and int2.png
@@ -22,25 +22,21 @@ While the intermediate boxes flip fine, the reagent boxes currently spin 360°C 
 
 
 
-Allowing user to switch between "forward synthesis" and "retrosynthesis" might be helpful. 
----Idk if I want to do this lol, keep it forward---
+Allowing users to switch between "forward synthesis" and "retrosynthesis" might be helpful. 
+---Done---
 
 Adding labels (TGT/SM) and arrows so that it is more clear which direction the synthesis is.
----Added---
+---Done---
 
 Some minor ways a user can cheat and deduce the answer without playing the game
+    1) Refreshing the page multiple times to see which answers in the keyboard always appear - those will be the ones required for the synthesis
+    2) Hovering above the boxes and interpreting the meaning of "rxn0_1"
 
-
-Refreshing the page multiple times to see which answers in the keyboard always appear - those will be the ones required for the synthesis
----Dont think I can actually prevent this---
-
-
-Hovering above the boxes and interpreting the meaning of "rxn0_1"
----Working on this---
-
+Creating a menu to make user input more aesthetically pleasing
+---Jonah is working on this---
 
 Need a good way to reveal the answer when the game is over.
----Working on this---
+---Kevin is working on this---
 
 
 
