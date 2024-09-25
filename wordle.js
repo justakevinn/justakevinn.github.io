@@ -166,44 +166,46 @@ function createReagents(item) {
 
 ////User Input//
 
-function askForNumber() {
-  let userInput = prompt("How many guesses would you like? (Choose a number between 1 and 5):", "4");
+function applySettings() {
+  // Get the values from the inputs
+  height = parseInt(document.getElementById('guesses').value);
+  reactionID = parseInt(document.getElementById('reaction-id').value);
+  let direction = document.getElementById('direction').value;
 
-  // Convert the input to an integer and validate it
-  let numGuesses = parseInt(userInput);
-
-  // Ensure that the input is a valid number within the allowed range
-  if (!isNaN(numGuesses) && numGuesses >= 1 && numGuesses <= 5) {
-    return numGuesses;
-  } else {
-    alert("Invalid input. Defaulting to 4 guesses.");
-    return 4;
+  // Validate the inputs
+  if (isNaN(height) || height < 1 || height > 5) {
+    alert('Invalid number of guesses. Defaulting to 4.');
+    height = 4;
   }
+
+  // Assuming you have a maximum ID value, validate reactionID
+  let maxID = 10; // Replace with actual length of your reaction data
+  if (isNaN(reactionID) || reactionID < 0 || reactionID >= maxID) {
+    alert('Invalid Reaction ID. Choosing random reaction.');
+    reactionID = Math.floor(Math.random() * maxID);
+  }
+
+  // Set the direction (forward or backward)
+  isForward = direction === 'forward';
+
+  // Now initialize the game after fetching the data
+  fetch("reactions.json")
+    .then(response => response.json())
+    .then(data => {
+      allReagents = data.reagents;
+      answer = data.reactions[reactionID].sequence;
+
+      // Reverse the answer if backward mode is selected
+      if (!isForward) {
+        answer = answer.reverse();
+      }
+
+      reagents = generateReagents(allReagents, answer, numChoices);
+      initialize(); // Initialize the board
+    })
+    .catch(error => console.error('Error fetching data:', error));
 }
 
-function askForReactionID(length) {
-  let userInput = prompt("Enter Reaction ID):", "0");
-
-  // Convert the input to an integer and validate it
-  let ID = parseInt(userInput);
-
-  // Ensure that the input is a valid number within the allowed range
-  if (!isNaN(ID) && ID >= 0 && ID <= length) {
-    return ID;
-  } else {
-    alert("Invalid input. Random reaction chosen.");
-    return Math.floor(Math.random() * (length));
-  }
-}
-
-function askForDirection() {
-  let direction = prompt("Choose the reaction direction: (forward or backward)", "forward");
-  if (direction.toLowerCase() === "backward") {
-    isForward = false;
-  } else {
-    isForward = true; // Default to forward if input is invalid
-  }
-}
 
 function update() {
   takingInput = false;
