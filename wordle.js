@@ -1,11 +1,175 @@
+// Variables
+let reactionID;
+let numGuesses = 4;  // Default number of guesses
+let isForward = true;  // Default direction is forward
+
+// Ensure the window is fully loaded before running scripts
+window.onload = function() {
+  // Add event listeners for gear icon and save button
+  console.log("Attaching event listeners...");
+  
+  const gearIcon = document.getElementById('gearIcon');
+  const saveButton = document.getElementById('saveSettings');
+  const modal = document.getElementById('settingsModal');
+  
+  // Check if the gearIcon, saveButton, and modal exist
+  if (!gearIcon) {
+    console.error("Gear icon not found!");
+  } else {
+    console.log("Gear icon found!");
+  }
+  
+  if (!saveButton) {
+    console.error("Save button not found!");
+  } else {
+    console.log("Save button found!");
+  }
+
+  if (!modal) {
+    console.error("Settings modal not found!");
+  } else {
+    console.log("Settings modal found!");
+  }
+
+  // Add event listener for the gear icon click
+  gearIcon.addEventListener('click', function() {
+    console.log("Gear icon clicked.");
+    showModal();  // Show modal
+  });
+
+  // Add event listener for the save button click
+  saveButton.addEventListener('click', function() {
+    console.log("Save button clicked.");
+    saveSettings();  // Save settings and hide modal
+  });
+};
+
+// Function to show modal
+function showModal() {
+  const modal = document.getElementById('settingsModal');
+  if (modal) {
+    console.log("Showing modal...");
+    modal.style.display = 'flex';  // Show modal with flex to center it
+  } else {
+    console.error("Modal not found when trying to show it!");
+  }
+}
+
+// Function to hide modal
+function hideModal() {
+  const modal = document.getElementById('settingsModal');
+  if (modal) {
+    console.log("Hiding modal...");
+    modal.style.display = 'none';  // Hide modal
+  } else {
+    console.error("Modal not found when trying to hide it!");
+  }
+}
+
+// Function to save settings
+function saveSettings() {
+  const reactionInput = document.getElementById('reactionID').value;
+  const guessesInput = document.getElementById('numGuesses').value;
+  const directionInput = document.getElementById('direction').value;
+
+  // Save inputs
+  reactionID = reactionInput ? parseInt(reactionInput) : 0;
+  numGuesses = guessesInput ? parseInt(guessesInput) : 4;
+  isForward = directionInput === 'forward';
+
+  console.log("Settings saved:", { reactionID, numGuesses, isForward });
+
+  const board = document.getElementById('board');
+  const keyboard = document.getElementById('keyboard');
+  board.innerHTML = '';  // Clears the old board
+  keyboard.innerHTML = '';  // Clears the old keyboard
+
+  height = numGuesses
+
+  // escape reagents from JSON file and initialize the board
+  fetch("reactions.json")
+    .then(response => response.json())
+    .then(data => {
+      const allReagents = data.reagents;
+      let answer = data.reactions[reactionID].sequence;
+      if (!isForward) answer.reverse();
+      const reagents = generateReagents(allReagents, answer, numChoices);
+
+      initializeBoard(answer, reagents);  // Initialize board after fetching data
+    })
+    .catch(error => console.error('Error fetching data:', error));
+
+  hideModal();
+}
+
+// Function to initialize the board (part of your original code)
+function initializeBoard(answer, reagents) {
+  row = 0; //Reset row to 0
+  col = 0; //Reset column to 0
+  takingInput = true; // Reset takingInput to true
+  gameOver = false; // Reset gameOver to false
+
+  window.answer = answer;
+
+  const gridData = create2DArray();  // Call your existing function
+  const board = document.getElementById('board');
+  const keyboard = document.getElementById("keyboard");
+
+  const fragment = document.createDocumentFragment();
+
+
+
+  // Add product before the first column
+  if (isForward) {
+    fragment.appendChild(createStart());
+  } else {
+    fragment.appendChild(createProduct());
+  }
+
+  // Add columns and intermediates
+  gridData.forEach((columnData, index) => {
+    const column = createColumn(columnData, index);
+    fragment.appendChild(column);
+    if (index < gridData.length - 1) {
+      if (isForward) {
+        fragment.appendChild(createIntermediate(index));
+      } else {
+        fragment.appendChild(createIntermediate(gridData.length - 2 - index));
+      }
+      console.log("Added new columns :)");
+    }
+  });
+
+  // Add starting compound after the last column
+  if (isForward) {
+    fragment.appendChild(createProduct()); // Add product (TGT) after last column in forward mode
+  } else {
+    fragment.appendChild(createStart()); // Add starting material (SM) after columns in backward mode
+  }
+
+  board.appendChild(fragment);
+
+  // Create Reagent Keyboard
+  const keyboardFragment = document.createDocumentFragment();
+  reagents.forEach(item => {
+    keyboardFragment.appendChild(createReagents(item));
+  });
+  keyboardFragment.appendChild(createEnter());
+  keyboardFragment.appendChild(createDelete());
+  keyboard.appendChild(keyboardFragment);
+
+  // Event listeners
+  document.addEventListener("click", handleUserInput);
+  console.log("Initializing board with answer and reagents...");
+}
+
 var height; //number of guesses
 var width = 4; //number of reactions
 var row = 0; //current guess (current attempt #)
 var col = 0; //current "letter" for the attempt
 var numChoices = 4; //Number of reagents shown on the "keyboard"
 var gameOver = false;
-var reactionID;
-var isForward = true; // Default is forward mode
+
 
 
 var intermediatesRevealed = {
@@ -16,23 +180,6 @@ var intermediatesRevealed = {
 
 var takingInput = true;
 
-// Fetch reagents from JSON file and initialize the board.
-fetch("reactions.json")
-  .then(response => response.json())
-  .then(data => {
-    askForDirection(); // Ask for direction before initializing
-    allReagents = data.reagents; // Populate reagentsList
-    height = askForNumber();
-    reactionID = askForReactionID(data.reactions.length);
-    answer = data.reactions[reactionID].sequence;
-    // Reverse the answer if in backward mode
-    if (!isForward) {
-      answer = answer.reverse();  // Reverse the sequence for backward mode
-    }
-    reagents = generateReagents(allReagents, answer, numChoices);
-    initialize(); // Initialize the board after fetching data
-  })
-  .catch(error => console.error('Error fetching data:', error));
 
 //---------------------------- HELPER FUNCTIONS  ----------------------------//
 function getRandomInt(max) {
@@ -62,7 +209,7 @@ function create2DArray() {
   let array = [];
   for (let i = 0; i < width; i++) {
     let row = [];
-    for (let j = 0; j < height; j++) {
+    for (let j = 0; j < numGuesses; j++) {
       row.push("");
     }
     array.push(row);
@@ -162,47 +309,6 @@ function createReagents(item) {
   reagent.innerHTML = `<img src=` + path + ` alt="${item}">`;
   reagent.id = item;
   return reagent
-}
-
-////User Input//
-
-function askForNumber() {
-  let userInput = prompt("How many guesses would you like? (Choose a number between 1 and 5):", "4");
-
-  // Convert the input to an integer and validate it
-  let numGuesses = parseInt(userInput);
-
-  // Ensure that the input is a valid number within the allowed range
-  if (!isNaN(numGuesses) && numGuesses >= 1 && numGuesses <= 5) {
-    return numGuesses;
-  } else {
-    alert("Invalid input. Defaulting to 4 guesses.");
-    return 4;
-  }
-}
-
-function askForReactionID(length) {
-  let userInput = prompt("Enter Reaction ID):", "0");
-
-  // Convert the input to an integer and validate it
-  let ID = parseInt(userInput);
-
-  // Ensure that the input is a valid number within the allowed range
-  if (!isNaN(ID) && ID >= 0 && ID <= length) {
-    return ID;
-  } else {
-    alert("Invalid input. Random reaction chosen.");
-    return Math.floor(Math.random() * (length));
-  }
-}
-
-function askForDirection() {
-  let direction = prompt("Choose the reaction direction: (forward or backward)", "forward");
-  if (direction.toLowerCase() === "backward") {
-    isForward = false;
-  } else {
-    isForward = true; // Default to forward if input is invalid
-  }
 }
 
 function update() {
