@@ -210,3 +210,25 @@ hr {
   width: 40px;
   height: 40px;
 }
+
+.modal-buttons {
+  display: flex; /* Use flexbox for layout */
+  justify-content: flex-end; /* Align buttons to the right */
+  gap: 10px; /* Space between buttons */
+}
+
+button {
+  padding: 10px 15px; /* Add some padding */
+  border: none; /* Remove default border */
+  border-radius: 5px; /* Round the corners */
+  cursor: pointer; /* Change cursor to pointer */
+}
+
+#saveSettings {
+  background-color: #4CAF50; /* Green background for save button */
+  color: white; /* White text */
+}
+
+#cancelButton {
+  background-color: #f44336; /* Red background for cancel button */
+  color: white; /* White text */
