@@ -3,55 +3,70 @@ let reactionID;
 let numGuesses = 4;  // Default number of guesses
 let isForward = true;  // Default direction is forward
 
+// Variables to hold the previous settings
+let previousReactionID;
+let previousNumGuesses;
+let previousIsForward;
+
+// Cancel function
+function cancelSettings() {
+  // Revert to previous settings
+  reactionID = previousReactionID;
+  numGuesses = previousNumGuesses;
+  isForward = previousIsForward;
+
+  // Optionally, reset the input fields in the modal
+  document.getElementById('reactionID').value = previousReactionID;
+  document.getElementById('numGuesses').value = previousNumGuesses;
+  document.getElementById('direction').value = isForward ? 'forward' : 'backward';
+
+  // Hide the modal
+  hideModal();
+}
+
+// Create the cancel button and add it to the modal
+function createCancelButton() {
+  const cancelButton = document.createElement('button');
+  cancelButton.textContent = "Cancel";
+  cancelButton.addEventListener('click', cancelSettings); // Attach event listener
+  cancelButton.id = "cancelButton"; // Set an ID for the button if needed
+
+  const modal = document.getElementById('settingsModal');
+  if (modal) {
+    modal.appendChild(cancelButton); // Append the cancel button to the modal
+  } else {
+    console.error("Modal not found when trying to add the cancel button!");
+  }
+}
+
 // Ensure the window is fully loaded before running scripts
 window.onload = function() {
   // Add event listeners for gear icon and save button
-  console.log("Attaching event listeners...");
-  
   const gearIcon = document.getElementById('gearIcon');
   const saveButton = document.getElementById('saveSettings');
+  const cancelButton = document.getElementById('cancelButton'); // Select cancel button
   const modal = document.getElementById('settingsModal');
-  
-  // Check if the gearIcon, saveButton, and modal exist
-  if (!gearIcon) {
-    console.error("Gear icon not found!");
-  } else {
-    console.log("Gear icon found!");
-  }
-  
-  if (!saveButton) {
-    console.error("Save button not found!");
-  } else {
-    console.log("Save button found!");
-  }
-
-  if (!modal) {
-    console.error("Settings modal not found!");
-  } else {
-    console.log("Settings modal found!");
-  }
 
   // Add event listener for the gear icon click
-  gearIcon.addEventListener('click', function() {
-    console.log("Gear icon clicked.");
-    showModal();  // Show modal
-  });
+  gearIcon.addEventListener('click', showModal);  // Show modal
 
   // Add event listener for the save button click
-  saveButton.addEventListener('click', function() {
-    console.log("Save button clicked.");
-    saveSettings();  // Save settings and hide modal
-  });
+  saveButton.addEventListener('click', saveSettings);  // Save settings and hide modal
+
+  // Add event listener for the cancel button click
+  cancelButton.addEventListener('click', cancelSettings); // Cancel settings and hide modal
 };
 
-// Function to show modal
+// Function to show modal and store previous settings
 function showModal() {
   const modal = document.getElementById('settingsModal');
   if (modal) {
-    console.log("Showing modal...");
-    modal.style.display = 'flex';  // Show modal with flex to center it
-  } else {
-    console.error("Modal not found when trying to show it!");
+    // Store previous settings before showing the modal
+    previousReactionID = reactionID;
+    previousNumGuesses = numGuesses;
+    previousIsForward = isForward;
+
+    modal.style.display = 'flex';  // Show modal
   }
 }
 
