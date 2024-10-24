@@ -231,4 +231,5 @@ button {
 
 #cancelButton {
   background-color: #f44336; /* Red background for cancel button */
-  color: white; /* White text */
+  color: white;
+}
