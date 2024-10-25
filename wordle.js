@@ -1,12 +1,28 @@
-// Variables
+// Variables that the user can change
 let reactionID;
 let numGuesses = 4;  // Default number of guesses
-let isForward = true;  // Default direction is forward
+let isForward = false;  // Default direction is fackward
 
 // Variables to hold the previous settings
 let previousReactionID;
 let previousNumGuesses;
 let previousIsForward;
+
+// General Parameters
+var height; //number of guesses
+var width = 4; //number of reactions
+var row = 0; //current guess (current attempt #)
+var col = 0; //current "letter" for the attempt
+var numChoices = 14; //Number of reagents shown on the "keyboard"
+var gameOver = false;
+
+var intermediatesRevealed = {
+  first: false,
+  second: false,
+  third: false
+}
+
+var takingInput = true;
 
 // Cancel function
 function cancelSettings() {
@@ -18,7 +34,7 @@ function cancelSettings() {
   // Optionally, reset the input fields in the modal
   document.getElementById('reactionID').value = previousReactionID;
   document.getElementById('numGuesses').value = previousNumGuesses;
-  document.getElementById('direction').value = isForward ? 'forward' : 'backward';
+  document.getElementById('direction').value = isForward ? 'forward' : 'retro';
 
   // Hide the modal
   hideModal();
@@ -94,9 +110,7 @@ function saveSettings() {
   reactionID = reactionInput ? parseInt(reactionInput) : 0;
   numGuesses = guessesInput ? parseInt(guessesInput) : 4;
   isForward = directionInput === 'forward';
-
   console.log("Settings saved:", { reactionID, numGuesses, isForward });
-
   const board = document.getElementById('board');
   const keyboard = document.getElementById('keyboard');
   board.innerHTML = '';  // Clears the old board
@@ -110,10 +124,11 @@ function saveSettings() {
     .then(data => {
       const allReagents = data.reagents;
       let answer = data.reactions[reactionID].sequence;
+      let reference = data.reactions[reactionID].reference;
       if (!isForward) answer.reverse();
       const reagents = generateReagents(allReagents, answer, numChoices);
 
-      initializeBoard(answer, reagents);  // Initialize board after fetching data
+      initializeBoard(answer, reagents, reference);  // Initialize board after fetching data
     })
     .catch(error => console.error('Error fetching data:', error));
 
@@ -121,7 +136,7 @@ function saveSettings() {
 }
 
 // Function to initialize the board (part of your original code)
-function initializeBoard(answer, reagents) {
+function initializeBoard(answer, reagents, reference) {
   row = 0; //Reset row to 0
   col = 0; //Reset column to 0
   takingInput = true; // Reset takingInput to true
@@ -132,9 +147,10 @@ function initializeBoard(answer, reagents) {
   const gridData = create2DArray();  // Call your existing function
   const board = document.getElementById('board');
   const keyboard = document.getElementById("keyboard");
-
   const fragment = document.createDocumentFragment();
-
+  const ref = document.createElement('div');
+  ref.classList.add('text'); // Add 'text' class for styling
+  ref.textContent = reference;
 
 
   // Add product before the first column
@@ -176,27 +192,13 @@ function initializeBoard(answer, reagents) {
   keyboardFragment.appendChild(createDelete());
   keyboard.appendChild(keyboardFragment);
 
+  board.appendChild(ref);
+
   // Event listeners
   document.addEventListener("click", handleUserInput);
   console.log("Initializing board with answer and reagents...");
 }
 
-var height; //number of guesses
-var width = 4; //number of reactions
-var row = 0; //current guess (current attempt #)
-var col = 0; //current "letter" for the attempt
-var numChoices = 14; //Number of reagents shown on the "keyboard"
-var gameOver = false;
-
-
-
-var intermediatesRevealed = {
-  first: false,
-  second: false,
-  third: false
-}
-
-var takingInput = true;
 
 
 //---------------------------- HELPER FUNCTIONS  ----------------------------//
@@ -399,10 +401,10 @@ function playAgain() {
 document.getElementById('playAgainButton').addEventListener('click', playAgain);
 
 // Add event listener to restart the game when the restart button is clicked
-document.getElementById('restartGameButton').addEventListener('click', function() {
+/*document.getElementById('restartGameButton').addEventListener('click', function() {
   hideGameOverModal();
   initialize(); // Call your initialization function to restart the game
-});
+});*/
 
 function checkGameover() {
   if (gameOver) {
@@ -520,8 +522,8 @@ function initialize() {
   const gridData = create2DArray();
     const board = document.getElementById('board');
     const keyboard = document.getElementById("keyboard");
-
     const fragment = document.createDocumentFragment();
+    
 
     // Add product before the first column
     if (isForward){
