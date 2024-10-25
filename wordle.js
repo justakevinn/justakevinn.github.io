@@ -55,6 +55,9 @@ window.onload = function() {
 
   // Add event listener for the cancel button click
   cancelButton.addEventListener('click', cancelSettings); // Cancel settings and hide modal
+
+  // Automatically show the menu modal when user loads the page
+  showModal(); // Calls function to open the menu modal
 };
 
 // Function to show modal and store previous settings
@@ -372,15 +375,47 @@ function update() {
   }, width * 1000); // Delay by the total duration of all flips
 }
 
+// Function to show the game over modal
+function showGameOverModal(message) {
+  const modal = document.getElementById('gameOverModal').style.display='flex';;
+  const messageElement = document.getElementById('gameOverMessage');
+  messageElement.textContent = message;
+  modal.style.display = 'block'; // Show the modal
+}
+
+// Function to hide the game over modal
+function hideGameOverModal() {
+  const modal = document.getElementById('gameOverModal');
+  modal.style.display = 'none'; // Hide the modal
+}
+
+// Function to show the settings/modal
+function playAgain() {
+  hideGameOverModal(); // Hide the game over modal first
+  showModal(); // Call the function to open the settings/modal
+}
+
+// Add event listener to play again button
+document.getElementById('playAgainButton').addEventListener('click', playAgain);
+
+// Add event listener to restart the game when the restart button is clicked
+document.getElementById('restartGameButton').addEventListener('click', function() {
+  hideGameOverModal();
+  initialize(); // Call your initialization function to restart the game
+});
 
 function checkGameover() {
   if (gameOver) {
-    setTimeout(function () { alert("Success in " + row.toString() + " generation(s)!"); }, 1000)
-    return;
+      setTimeout(function () { 
+          showGameOverModal("Success in " + row.toString() + " generation(s)!"); 
+      }, 1000);
+      return;
   }
   if (row == height - 1) {
-    gameOver = true;
-    setTimeout(function () { alert("Game over!"); }, 1000);
+      gameOver = true;
+      setTimeout(function () { 
+          showGameOverModal("Game over!"); 
+      }, 1000);
   }
 }
 
@@ -448,10 +483,35 @@ function handleEnterClick() {
   if (col === width) {
     update();
   } else {
-    alert("Please enter 4 reaction conditions before submitting your guess.");
+    showNotification("Not enough guesses!");
   }
 }
 
+function showNotification(message) {
+  const notificationContainer = document.getElementById('notificationContainer');
+  const existingNotifications = notificationContainer.querySelectorAll('.notification');
+
+  // Remove the oldest notification if there are already 3 notifications
+  if (existingNotifications.length >= 3) {
+    existingNotifications[0].remove(); // Remove the first (oldest) notification
+  }
+
+  // Create a new notification element
+  const notification = document.createElement('div');
+  notification.className = 'notification';
+  notification.textContent = message;
+
+  // Append the notification to the container
+  notificationContainer.appendChild(notification);
+
+  // Set a timeout to remove the notification after a few seconds
+  setTimeout(() => {
+    notification.classList.add('fade-out'); // Add fade-out class
+    setTimeout(() => {
+      notification.remove();
+    }, 500); // Wait for fade-out effect to finish before removing
+  }, 1000); // Duration the notification is displayed (5 seconds)
+}
 
 
 //---------------------------------------------------------------------------//
