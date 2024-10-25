@@ -7,10 +7,50 @@ var intermediatesRevealed = { first: false, second: false, third: false };
 var takingInput = true; //Turn to false while animating to avoid extra input
 var gameOver = false;
 
+
 // Variables that the user can change
 var reactionID;
 var numGuesses = 4;  // Default number of guesses
 var isForward = true;  // Default direction is forward
+
+var intermediatesRevealed = {
+  first: false,
+  second: false,
+  third: false
+}
+
+var takingInput = true;
+
+let maxReactionID = 0; // Initialize variable for maximum reaction ID
+
+// Function to fetch reactions and set maxReactionID
+function fetchReactions() {
+    fetch("reactions.json")
+        .then(response => response.json())
+        .then(data => {
+            maxReactionID = data.reactions.length - 1; // Set maxReactionID based on the number of reactions
+            console.log("Maximum Reaction ID:", maxReactionID); // Log the maximum Reaction ID
+        })
+        .catch(error => console.error('Error fetching data:', error));
+}
+
+function randomizeReactionId() {
+  const randomId = Math.floor(Math.random() * (maxReactionID + 1)); // Generate a random ID between 0 and maxReactionID
+  document.getElementById('reactionID').value = randomId; // Set the value of the input box to the random ID
+}
+
+// Cancel function
+function cancelSettings() {
+  // Revert to previous settings
+  reactionID = previousReactionID;
+  numGuesses = previousNumGuesses;
+  isForward = previousIsForward;
+
+  // Optionally, reset the input fields in the modal
+  document.getElementById('reactionID').value = previousReactionID;
+  document.getElementById('numGuesses').value = previousNumGuesses;
+  document.getElementById('direction').value = isForward ? 'forward' : 'retro';
+
 
 // Variables to hold the previous settings
 var previousReactionID;
@@ -22,6 +62,9 @@ var previousIsForward;
 
 // Ensure the window is fully loaded before running scripts
 window.onload = function() {
+
+  fetchReactions(); // Fetch reactions to set maxReactionID
+  // Add event listeners for gear icon and save button
 
   const gearIcon = document.getElementById('gearIcon');
   const aboutIcon = document.getElementById('aboutIcon');
