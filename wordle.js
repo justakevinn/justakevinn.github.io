@@ -6,43 +6,13 @@ var numChoices = 14; //Number of reagents shown on the "keyboard"
 var intermediatesRevealed = { first: false, second: false, third: false };
 var takingInput = true; //Turn to false while animating to avoid extra input
 var gameOver = false;
+let maxReactionID;
 
 // Variables that the user can change
 var reactionID = 0;
 var numGuesses = 4;  // Default number of guesses
 var isForward = true;  // Default direction is forward
 
-
-let maxReactionID = 0; // Initialize variable for maximum reaction ID
-
-// Function to fetch reactions and set maxReactionID
-function fetchReactions() {
-    fetch("reactions.json")
-        .then(response => response.json())
-        .then(data => {
-            maxReactionID = data.reactions.length - 1; // Set maxReactionID based on the number of reactions
-        })
-        .catch(error => console.error('Error fetching data:', error));
-}
-
-function randomizeReactionId() {
-  const randomId = Math.floor(Math.random() * (maxReactionID + 1)); // Generate a random ID between 0 and maxReactionID
-  document.getElementById('reactionID').value = randomId; // Set the value of the input box to the random ID
-}
-
-// Cancel function
-function cancelSettings() {
-  // Revert to previous settings
-  reactionID = previousReactionID;
-  numGuesses = previousNumGuesses;
-  isForward = previousIsForward;
-
-  // Optionally, reset the input fields in the modal
-  document.getElementById('reactionID').value = previousReactionID;
-  document.getElementById('numGuesses').value = previousNumGuesses;
-  document.getElementById('direction').value = isForward ? 'forward' : 'retro';
-
-}
 // Variables to hold the previous settings
 var previousReactionID;
 var previousNumGuesses;
@@ -52,113 +22,90 @@ var previousIsForward;
 //////////////////////////FUNCTIONS///////////////////////////
 
 // Ensure the window is fully loaded before running scripts
-window.onload = function() {
-
+window.onload = function () {
   fetchReactions(); // Fetch reactions to set maxReactionID
-  // Add event listeners for gear icon and save button
 
+  // Add event listeners for all buttons and add event listeners
   const gearIcon = document.getElementById('gearIcon');
   const aboutIcon = document.getElementById('aboutIcon');
   const saveButton = document.getElementById('saveSettings');
   const cancelButton = document.getElementById('cancelButton'); // Select cancel button
-  const modal = document.getElementById('settingsModal');
-  const about = document.getElementById('aboutModal')
-
-  // Add event listeners for icons
   gearIcon.addEventListener('click', showSettingsModal);  // Show Settings modal
-
   aboutIcon.addEventListener('click', showAboutModal);  // Show About modal
-
   closeButton.addEventListener('click', hideAboutModal); // Close and hide the about modal
-
   saveButton.addEventListener('click', saveSettings);  // Save settings and hide modal
-
   cancelButton.addEventListener('click', cancelSettings); // Cancel settings and hide modal
 
   // Automatically show the menu modal when user loads the page
   showSettingsModal(); // Calls function to open the menu modal
 };
 
-// Function to show modal and store previous settings
+
+// Functions to fetch reactions, set maxReactionID, and randomize
+function fetchReactions() {
+  fetch("reactions.json")
+    .then(response => response.json())
+    .then(data => {
+      maxReactionID = data.reactions.length - 1; // Set maxReactionID based on the number of reactions
+    })
+    .catch(error => console.error('Error fetching data:', error));
+}
+function randomizeReactionId() {
+  const randomId = Math.floor(Math.random() * (maxReactionID + 1)); // Generate a random ID between 0 and maxReactionID
+  document.getElementById('reactionID').value = randomId; // Set the value of the input box to the random ID
+}
+
+//////////////////////////////////MODALS///////////////////////////////////
+
+///////Settings///////
+
+//Show
 function showSettingsModal() {
   const modal = document.getElementById('settingsModal');
   if (modal) {
-    
     // Store previous settings before showing the modal
     previousReactionID = reactionID;
     previousNumGuesses = numGuesses;
     previousIsForward = isForward;
-
     modal.style.display = 'flex';  // Show modal
   }
 }
 
-// Function to about modal
-function showAboutModal() {
-  const about = document.getElementById('aboutModal');
-  if (about) {
-    about.style.display = 'flex';  // Show modal
-  }
-}
-
-// Function to about modal
-function hideAboutModal() {
-  const modal = document.getElementById('aboutModal');
-  if (modal) {
-    console.log("Hiding modal...");
-    modal.style.display = 'none';  // Hide modal
-  } else {
-    console.error("Modal not found when trying to hide it!");
-  }
-}
-
-// Function to hide modal
+// Hide
 function hideSettingsModal() {
   const modal = document.getElementById('settingsModal');
   if (modal) {
-    console.log("Hiding modal...");
     modal.style.display = 'none';  // Hide modal
   } else {
     console.error("Modal not found when trying to hide it!");
   }
 }
 
-
-
-// Cancel function
+//Cancel
 function cancelSettings() {
   // Revert to previous settings
   reactionID = previousReactionID;
   numGuesses = previousNumGuesses;
   isForward = previousIsForward;
-
   // Optionally, reset the input fields in the modal
   document.getElementById('reactionID').value = previousReactionID;
   document.getElementById('numGuesses').value = previousNumGuesses;
   document.getElementById('direction').value = isForward ? 'forward' : 'retro';
-
-  // Hide the modal
-  hideSettingsModal();
 }
 
-
-
-// Function to save settings
+//Save
 function saveSettings() {
   const reactionInput = document.getElementById('reactionID').value;
   const guessesInput = document.getElementById('numGuesses').value;
   const directionInput = document.getElementById('direction').value;
 
-  // Save inputs
   reactionID = reactionInput ? parseInt(reactionInput) : 0;
   numGuesses = guessesInput ? parseInt(guessesInput) : 4;
   isForward = directionInput === 'forward';
-  console.log("Settings saved:", { reactionID, numGuesses, isForward });
   const board = document.getElementById('board');
   const keyboard = document.getElementById('keyboard');
   board.innerHTML = '';  // Clears the old board
   keyboard.innerHTML = '';  // Clears the old keyboard
-
 
   // escape reagents from JSON file and initialize the board
   fetch("reactions.json")
@@ -177,7 +124,30 @@ function saveSettings() {
   hideSettingsModal();
 }
 
-// Function to initialize the board (part of your original code)
+
+///////ABOUT///////
+
+//Show
+function showAboutModal() {
+  const about = document.getElementById('aboutModal');
+  if (about) {
+    about.style.display = 'flex';  // Show modal
+  }
+}
+
+//Hide
+function hideAboutModal() {
+  const modal = document.getElementById('aboutModal');
+  if (modal) {
+    modal.style.display = 'none';  // Hide modal
+  } else {
+    console.error("Modal not found when trying to hide it!");
+  }
+}
+
+
+////////////INITIALIZE///////////
+
 function initializeBoard(answer, reagents, reference) {
   row = 0; //Reset row to 0
   col = 0; //Reset column to 0
@@ -212,7 +182,6 @@ function initializeBoard(answer, reagents, reference) {
       } else {
         fragment.appendChild(createIntermediate(gridData.length - 2 - index));
       }
-      console.log("Added new columns :)");
     }
   });
 
@@ -238,7 +207,6 @@ function initializeBoard(answer, reagents, reference) {
 
   // Event listeners
   document.addEventListener("click", handleUserInput);
-  console.log("Initializing board with answer and reagents...");
 }
 
 
@@ -421,7 +389,7 @@ function update() {
 
 // Function to show the game over modal
 function showGameOverModal(message) {
-  const modal = document.getElementById('gameOverModal').style.display='flex';;
+  const modal = document.getElementById('gameOverModal').style.display = 'flex';;
   const messageElement = document.getElementById('gameOverMessage');
   messageElement.textContent = message;
   modal.style.display = 'block'; // Show the modal
@@ -450,16 +418,16 @@ document.getElementById('playAgainButton').addEventListener('click', playAgain);
 
 function checkGameover() {
   if (gameOver) {
-      setTimeout(function () { 
-          showGameOverModal("Success in " + row.toString() + " generation(s)!"); 
-      }, 1000);
-      return;
+    setTimeout(function () {
+      showGameOverModal("Success in " + row.toString() + " generation(s)!");
+    }, 1000);
+    return;
   }
   if (row == numGuesses - 1) {
-      gameOver = true;
-      setTimeout(function () { 
-          showGameOverModal("Game over!"); 
-      }, 1000);
+    gameOver = true;
+    setTimeout(function () {
+      showGameOverModal("Game over!");
+    }, 1000);
   }
 }
 
@@ -562,50 +530,50 @@ function showNotification(message) {
 //------------------------------ INITIALIZE  -------------------------------//
 function initialize() {
   const gridData = create2DArray();
-    const board = document.getElementById('board');
-    const keyboard = document.getElementById("keyboard");
-    const fragment = document.createDocumentFragment();
-    
+  const board = document.getElementById('board');
+  const keyboard = document.getElementById("keyboard");
+  const fragment = document.createDocumentFragment();
 
-    // Add product before the first column
-    if (isForward){
-      fragment.appendChild(createStart());
-    } else {
-      fragment.appendChild(createProduct());
+
+  // Add product before the first column
+  if (isForward) {
+    fragment.appendChild(createStart());
+  } else {
+    fragment.appendChild(createProduct());
+  }
+
+  // Add columns and intermediates
+  gridData.forEach((columnData, index) => {
+    const column = createColumn(columnData, index);
+    fragment.appendChild(column);
+    if (index < gridData.length - 1) {
+      if (isForward) {
+        fragment.appendChild(createIntermediate(index));
+      }
+      else {
+        fragment.appendChild(createIntermediate(gridData.length - 2 - index));
+      }
     }
+  })
 
-    // Add columns and intermediates
-    gridData.forEach((columnData, index) => {
-        const column = createColumn(columnData, index);
-        fragment.appendChild(column);
-        if (index < gridData.length - 1){
-          if(isForward){
-            fragment.appendChild(createIntermediate(index));
-          }
-          else{
-            fragment.appendChild(createIntermediate(gridData.length - 2 - index));
-          }
-        }
-      })
+  // Add starting compound after the last column
+  if (isForward) {
+    fragment.appendChild(createProduct()); // Add product (TGT) after last column in forward mode
+  } else {
+    fragment.appendChild(createStart()); // Add starting material (SM) after columns in backward mode
+  }
 
-    // Add starting compound after the last column
-    if (isForward) {
-      fragment.appendChild(createProduct()); // Add product (TGT) after last column in forward mode
-    } else {
-      fragment.appendChild(createStart()); // Add starting material (SM) after columns in backward mode
-    }
 
-    
-    board.appendChild(fragment);
+  board.appendChild(fragment);
 
-    // Create Reagent Keyboard
-    const keyboardFragment = document.createDocumentFragment();
-    reagents.forEach(item => {
-        keyboardFragment.appendChild(createReagents(item));
-    });
-    keyboardFragment.appendChild(createEnter());
-    keyboardFragment.appendChild(createDelete());
-    keyboard.appendChild(keyboardFragment);
+  // Create Reagent Keyboard
+  const keyboardFragment = document.createDocumentFragment();
+  reagents.forEach(item => {
+    keyboardFragment.appendChild(createReagents(item));
+  });
+  keyboardFragment.appendChild(createEnter());
+  keyboardFragment.appendChild(createDelete());
+  keyboard.appendChild(keyboardFragment);
 
   // Event listeners
   document.addEventListener("click", handleUserInput)
