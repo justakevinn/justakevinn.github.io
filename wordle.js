@@ -1,20 +1,17 @@
-// Variables that the user can change
-let reactionID;
-let numGuesses = 4;  // Default number of guesses
-let isForward = false;  // Default direction is fackward
-
-// Variables to hold the previous settings
-let previousReactionID;
-let previousNumGuesses;
-let previousIsForward;
-
 // General Parameters
-var height; //number of guesses
-var width = 4; //number of reactions
+var width = 4; //number of reactions (always 4)
 var row = 0; //current guess (current attempt #)
 var col = 0; //current "letter" for the attempt
 var numChoices = 14; //Number of reagents shown on the "keyboard"
+var intermediatesRevealed = { first: false, second: false, third: false };
+var takingInput = true; //Turn to false while animating to avoid extra input
 var gameOver = false;
+
+
+// Variables that the user can change
+var reactionID;
+var numGuesses = 4;  // Default number of guesses
+var isForward = true;  // Default direction is forward
 
 var intermediatesRevealed = {
   first: false,
@@ -54,51 +51,48 @@ function cancelSettings() {
   document.getElementById('numGuesses').value = previousNumGuesses;
   document.getElementById('direction').value = isForward ? 'forward' : 'retro';
 
-  // Hide the modal
-  hideModal();
-}
 
-// Create the cancel button and add it to the modal
-function createCancelButton() {
-  const cancelButton = document.createElement('button');
-  cancelButton.textContent = "Cancel";
-  cancelButton.addEventListener('click', cancelSettings); // Attach event listener
-  cancelButton.id = "cancelButton"; // Set an ID for the button if needed
+// Variables to hold the previous settings
+var previousReactionID;
+var previousNumGuesses;
+var previousIsForward;
 
-  const modal = document.getElementById('settingsModal');
-  if (modal) {
-    modal.appendChild(cancelButton); // Append the cancel button to the modal
-  } else {
-    console.error("Modal not found when trying to add the cancel button!");
-  }
-}
+
+//////////////////////////FUNCTIONS///////////////////////////
 
 // Ensure the window is fully loaded before running scripts
 window.onload = function() {
+
   fetchReactions(); // Fetch reactions to set maxReactionID
   // Add event listeners for gear icon and save button
+
   const gearIcon = document.getElementById('gearIcon');
+  const aboutIcon = document.getElementById('aboutIcon');
   const saveButton = document.getElementById('saveSettings');
   const cancelButton = document.getElementById('cancelButton'); // Select cancel button
   const modal = document.getElementById('settingsModal');
+  const about = document.getElementById('aboutModal')
 
-  // Add event listener for the gear icon click
-  gearIcon.addEventListener('click', showModal);  // Show modal
+  // Add event listeners for icons
+  gearIcon.addEventListener('click', showSettingsModal);  // Show Settings modal
 
-  // Add event listener for the save button click
+  aboutIcon.addEventListener('click', showAboutModal);  // Show About modal
+
+  closeButton.addEventListener('click', hideAboutModal); // Close and hide the about modal
+
   saveButton.addEventListener('click', saveSettings);  // Save settings and hide modal
 
-  // Add event listener for the cancel button click
   cancelButton.addEventListener('click', cancelSettings); // Cancel settings and hide modal
 
   // Automatically show the menu modal when user loads the page
-  showModal(); // Calls function to open the menu modal
+  showSettingsModal(); // Calls function to open the menu modal
 };
 
 // Function to show modal and store previous settings
-function showModal() {
+function showSettingsModal() {
   const modal = document.getElementById('settingsModal');
   if (modal) {
+    
     // Store previous settings before showing the modal
     previousReactionID = reactionID;
     previousNumGuesses = numGuesses;
@@ -108,8 +102,27 @@ function showModal() {
   }
 }
 
+// Function to about modal
+function showAboutModal() {
+  const about = document.getElementById('aboutModal');
+  if (about) {
+    about.style.display = 'flex';  // Show modal
+  }
+}
+
+// Function to about modal
+function hideAboutModal() {
+  const modal = document.getElementById('aboutModal');
+  if (modal) {
+    console.log("Hiding modal...");
+    modal.style.display = 'none';  // Hide modal
+  } else {
+    console.error("Modal not found when trying to hide it!");
+  }
+}
+
 // Function to hide modal
-function hideModal() {
+function hideSettingsModal() {
   const modal = document.getElementById('settingsModal');
   if (modal) {
     console.log("Hiding modal...");
@@ -118,6 +131,26 @@ function hideModal() {
     console.error("Modal not found when trying to hide it!");
   }
 }
+
+
+
+// Cancel function
+function cancelSettings() {
+  // Revert to previous settings
+  reactionID = previousReactionID;
+  numGuesses = previousNumGuesses;
+  isForward = previousIsForward;
+
+  // Optionally, reset the input fields in the modal
+  document.getElementById('reactionID').value = previousReactionID;
+  document.getElementById('numGuesses').value = previousNumGuesses;
+  document.getElementById('direction').value = isForward ? 'forward' : 'retro';
+
+  // Hide the modal
+  hideSettingsModal();
+}
+
+
 
 // Function to save settings
 function saveSettings() {
@@ -135,7 +168,6 @@ function saveSettings() {
   board.innerHTML = '';  // Clears the old board
   keyboard.innerHTML = '';  // Clears the old keyboard
 
-  height = numGuesses
 
   // escape reagents from JSON file and initialize the board
   fetch("reactions.json")
@@ -151,7 +183,7 @@ function saveSettings() {
     })
     .catch(error => console.error('Error fetching data:', error));
 
-  hideModal();
+  hideSettingsModal();
 }
 
 // Function to initialize the board (part of your original code)
@@ -413,7 +445,7 @@ function hideGameOverModal() {
 // Function to show the settings/modal
 function playAgain() {
   hideGameOverModal(); // Hide the game over modal first
-  showModal(); // Call the function to open the settings/modal
+  showSettingsModal(); // Call the function to open the settings/modal
 }
 
 // Add event listener to play again button
@@ -432,7 +464,7 @@ function checkGameover() {
       }, 1000);
       return;
   }
-  if (row == height - 1) {
+  if (row == numGuesses - 1) {
       gameOver = true;
       setTimeout(function () { 
           showGameOverModal("Game over!"); 
