@@ -24,6 +24,29 @@ var intermediatesRevealed = {
 
 var takingInput = true;
 
+let maxReactions = 0; // Initialize variable for maximum number of reactions
+
+// Function to fetch reactions and set maxReactions
+function fetchReactions() {
+    fetch("reactions.json")
+        .then(response => response.json())
+        .then(data => {
+            maxReactions = data.reactions.length; // Set maxReactions based on the number of reactions
+            console.log("Maximum Reaction ID:", maxReactions); // Log the maximum Reaction ID
+        })
+        .catch(error => console.error('Error fetching data:', error));
+}
+
+// Function to generate a random ReactionID
+function randomizeReactionId() {
+  // Generate a random number (for example, between 1 and 1000)
+  const randomId = Math.floor(Math.random() * 10); // Adjust the range as needed
+  // Set the value of the input box to the random ID
+  document.getElementById('reactionID').value = randomId;
+}
+
+
+
 // Cancel function
 function cancelSettings() {
   // Revert to previous settings
