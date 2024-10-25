@@ -1,7 +1,7 @@
 :root {
   --box-width: 8vw;
   --box-height: calc(var(--box-width) / 2);
-  --intermediate-size: 8vw;
+  --intermediate-size: 10vw;
   --primary-color: white;
   --secondary-color: #7fce78;
   --present-color: #dbc460;
@@ -280,5 +280,3 @@ button {
 
 .notification.fade-out {
   opacity: 0; /* Class to fade out the notification */
-}
-

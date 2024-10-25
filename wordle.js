@@ -185,7 +185,7 @@ var height; //number of guesses
 var width = 4; //number of reactions
 var row = 0; //current guess (current attempt #)
 var col = 0; //current "letter" for the attempt
-var numChoices = 4; //Number of reagents shown on the "keyboard"
+var numChoices = 14; //Number of reagents shown on the "keyboard"
 var gameOver = false;
 
 

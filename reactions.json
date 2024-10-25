@@ -2,18 +2,47 @@
   "reactions": [
     {
       "ID": "0",
-      "sequence": ["rxn0-0", "rxn0-1", "rxn0-2", "rxn0-3"]
+      "sequence": ["mCPBA", "TMABHOAc4", "LDACBr4", "DavisOxaziridine"],
+      "reference": "Nat. Chem. 7, 604–607 (2015)."
     },
     {
       "ID": "1",
-      "sequence": ["rxn1-0", "rxn1-1", "rxn1-2", "rxn1-3"]
+      "sequence": ["AnaeriobicMukaiyama", "IsoprenylOAc", "CrO3TBAIO4", "Ms2ODMAPEt3N"],
+      "reference": "J. Am. Chem. Soc. 2023, 145, 15714"
     },
     {
       "ID": "2",
-      "sequence": ["rxn2-0", "rxn2-1", "rxn2-2", "rxn2-3"]
+      "sequence": ["mesitylene", "DMP", "CH2OKOH", "MsClEt3NDBU"],
+      "reference": "J. Am. Chem. Soc. 2023, 145, 20634"
+    },
+    {
+      "ID": "3",
+      "sequence": ["PhSHAIBN", "POCl3Pyr", "SnCl4Methacrolein", "NaBH4"],
+      "reference" : "J. Org. Chem. 2001, 66, 8843"
+    },
+    {
+      "ID": "4",
+      "sequence": ["LDACO2", "methylphosphoylide", "COCl2", "iPr2NEt"],
+      "reference" : "Tet. Lett. 1985, 26, 3535"
+    },
+    {
+      "ID": "5",
+      "sequence": ["MeLi", "HClMeOH", "NH2NH2", "240C"],
+      "reference" : "J. Am. Chem. Soc. 1970, 92, 5657"
+    },
+    {
+      "ID": "6",
+      "sequence": ["Zn", "mCPBA", "oxalicacid", "NaOH"],
+      "reference" : "J. Org. Chem. 1989, 54, 681"
     }
+    
+    
   ],
-  "reagents": ["rxn0-0", "rxn0-1", "rxn0-2", "rxn0-3", 
-               "rxn1-0", "rxn1-1", "rxn1-2", "rxn1-3",
-               "rxn2-0", "rxn2-1", "rxn2-2", "rxn2-3"]
+  "reagents": ["LDACBr4", "DavisOxaziridine", "TMABHOAc4", "mCPBA", 
+               "AnaeriobicMukaiyama", "IsoprenylOAc", "CrO3TBAIO4", "Ms2ODMAPEt3N",
+               "mesitylene", "DMP", "CH2OKOH", "MsClEt3NDBU",
+               "PhSHAIBN", "POCl3Pyr", "SnCl4Methacrolein", "NaBH4",
+               "LDACO2", "methylphosphoylide", "COCl2", "iPr2NEt",
+               "MeLi", "HClMeOH", "NH2NH2", "240C"
+              ]
 }
