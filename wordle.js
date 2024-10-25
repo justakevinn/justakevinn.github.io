@@ -7,19 +7,11 @@ var intermediatesRevealed = { first: false, second: false, third: false };
 var takingInput = true; //Turn to false while animating to avoid extra input
 var gameOver = false;
 
-
 // Variables that the user can change
-var reactionID;
+var reactionID = 0;
 var numGuesses = 4;  // Default number of guesses
 var isForward = true;  // Default direction is forward
 
-var intermediatesRevealed = {
-  first: false,
-  second: false,
-  third: false
-}
-
-var takingInput = true;
 
 let maxReactionID = 0; // Initialize variable for maximum reaction ID
 
@@ -29,7 +21,6 @@ function fetchReactions() {
         .then(response => response.json())
         .then(data => {
             maxReactionID = data.reactions.length - 1; // Set maxReactionID based on the number of reactions
-            console.log("Maximum Reaction ID:", maxReactionID); // Log the maximum Reaction ID
         })
         .catch(error => console.error('Error fetching data:', error));
 }
@@ -51,7 +42,7 @@ function cancelSettings() {
   document.getElementById('numGuesses').value = previousNumGuesses;
   document.getElementById('direction').value = isForward ? 'forward' : 'retro';
 
-
+}
 // Variables to hold the previous settings
 var previousReactionID;
 var previousNumGuesses;
