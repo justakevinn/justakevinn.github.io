@@ -91,6 +91,7 @@ function cancelSettings() {
   document.getElementById('reactionID').value = previousReactionID;
   document.getElementById('numGuesses').value = previousNumGuesses;
   document.getElementById('direction').value = isForward ? 'forward' : 'retro';
+  hideSettingsModal();
 }
 
 //Save
