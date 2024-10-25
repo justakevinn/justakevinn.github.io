@@ -34,6 +34,21 @@
       "ID": "6",
       "sequence": ["Zn", "mCPBA", "oxalicacid", "NaOH"],
       "reference" : "J. Org. Chem. 1989, 54, 681"
+    },
+    {
+      "ID": "7",
+      "sequence": ["OsO4", "TsClPyr", "KOtBu", "methylphosphoylide"],
+      "reference" : "J. Am. Chem. Soc. 1966, 88, 4113; J. Am. Chem. Soc. 1969, 91, 6473"
+    },
+    {
+      "ID": "8",
+      "sequence": ["propenyllithium", "PDC", "EtAlCl2", "CH2OMe2AlCl"],
+      "reference" : "J. Org. Chem. 1993, 58, 1030"
+    },
+    {
+      "ID": "9",
+      "sequence": ["TiCl4CH2Br2", "tBuLiDMF", "NaBH4", "triethylorthoacetate"],
+      "reference" : "J. Am. Chem. Soc. 2021, 143, 18287"
     }
     
     

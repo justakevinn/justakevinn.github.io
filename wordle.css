@@ -94,6 +94,16 @@ hr {
   font-weight: bold;
 }
 
+.reference {
+  font-family: Helvetica;
+  margin-top: 0.5vw; /* Space between image and text */
+  font-size: 1vw; /* Adjust text size */
+  color: #000; /* Text color */
+  text-align: center; /* Center align text */
+  font-weight: bold;
+}
+
+
 /* Keyframes for 360-degree flip for boxes */
 @keyframes flip360 {
   0% {
