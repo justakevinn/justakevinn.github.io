@@ -24,28 +24,23 @@ var intermediatesRevealed = {
 
 var takingInput = true;
 
-let maxReactions = 0; // Initialize variable for maximum number of reactions
+let maxReactionID = 0; // Initialize variable for maximum reaction ID
 
-// Function to fetch reactions and set maxReactions
+// Function to fetch reactions and set maxReactionID
 function fetchReactions() {
     fetch("reactions.json")
         .then(response => response.json())
         .then(data => {
-            maxReactions = data.reactions.length; // Set maxReactions based on the number of reactions
-            console.log("Maximum Reaction ID:", maxReactions); // Log the maximum Reaction ID
+            maxReactionID = data.reactions.length - 1; // Set maxReactionID based on the number of reactions
+            console.log("Maximum Reaction ID:", maxReactionID); // Log the maximum Reaction ID
         })
         .catch(error => console.error('Error fetching data:', error));
 }
 
-// Function to generate a random ReactionID
 function randomizeReactionId() {
-  // Generate a random number (for example, between 1 and 1000)
-  const randomId = Math.floor(Math.random() * 10); // Adjust the range as needed
-  // Set the value of the input box to the random ID
-  document.getElementById('reactionID').value = randomId;
+  const randomId = Math.floor(Math.random() * (maxReactionID + 1)); // Generate a random ID between 0 and maxReactionID
+  document.getElementById('reactionID').value = randomId; // Set the value of the input box to the random ID
 }
-
-
 
 // Cancel function
 function cancelSettings() {
@@ -80,6 +75,7 @@ function createCancelButton() {
 
 // Ensure the window is fully loaded before running scripts
 window.onload = function() {
+  fetchReactions(); // Fetch reactions to set maxReactionID
   // Add event listeners for gear icon and save button
   const gearIcon = document.getElementById('gearIcon');
   const saveButton = document.getElementById('saveSettings');
