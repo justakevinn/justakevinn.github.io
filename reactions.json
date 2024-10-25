@@ -49,6 +49,11 @@
       "ID": "9",
       "sequence": ["TiCl4CH2Br2", "tBuLiDMF", "NaBH4", "triethylorthoacetate"],
       "reference" : "J. Am. Chem. Soc. 2021, 143, 18287"
+    },
+    {
+      "ID": "10",
+      "sequence": ["aminophenylaziridine", "Bu3SnHAIBN", "Swern", "MeMgBrTiCl4"],
+      "reference" : "Bull. Korean Chem. Soc. 1999, Vol. 20, No. 3"
     }
     
     
@@ -58,6 +63,11 @@
                "mesitylene", "DMP", "CH2OKOH", "MsClEt3NDBU",
                "PhSHAIBN", "POCl3Pyr", "SnCl4Methacrolein", "NaBH4",
                "LDACO2", "methylphosphoylide", "COCl2", "iPr2NEt",
-               "MeLi", "HClMeOH", "NH2NH2", "240C"
+               "MeLi", "HClMeOH", "NH2NH2", "240C",
+               "Zn", "mCPBA", "oxalicacid", "NaOH",
+               "OsO4", "TsClPyr", "KOtBu", "methylphosphoylide",
+               "propenyllithium", "PDC", "EtAlCl2", "CH2OMe2AlCl",
+               "TiCl4CH2Br2", "tBuLiDMF", "NaBH4", "triethylorthoacetate",
+               "aminophenylaziridine", "Bu3SnHAIBN", "Swern", "MeMgBrTiCl4"
               ]
 }
