@@ -12,7 +12,7 @@
 }
 
 body {
-  font-family: Helvetica;
+  font-family: Arial, Helvetica, sans-serif;
   text-align: center;
   font-size: 1.5vw;
   margin: 0;
@@ -26,9 +26,10 @@ hr {
 }
 
 #title {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 3vw;
   font-weight: bold;
-  letter-spacing: 0.15vw;
+  letter-spacing: 0.02vw;
   margin-bottom: var(--spacing); /* Reduced spacing below the title */
 }
 
@@ -192,6 +193,8 @@ hr {
 }
 
 .modal-content {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
   background-color: white;
   padding: 20px;
   border-radius: 10px;
@@ -233,3 +236,49 @@ button {
   background-color: #f44336; /* Red background for cancel button */
   color: white;
 }
+
+#gameOverModal {
+  display: none;  /* Hidden by default */
+  position: fixed;
+  z-index: 1;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Dimming effect */
+  justify-content: center;
+  align-items: center;
+}
+
+
+.notification-container {
+  position: fixed;
+  top: 20px; /* Starting position */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000; /* Ensure it appears above other elements */
+}
+
+.notification {
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin: 5px 0; /* Space between notifications */
+  transition: opacity 0.5s ease; /* Optional: for fade out effect */
+  opacity: 1;
+  animation: vibrate 0.3s; /* Add vibration effect */
+}
+
+@keyframes vibrate {
+  0% { transform: translateX(-2px); }
+  25% { transform: translateX(2px); }
+  50% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
+  100% { transform: translateX(0); }
+}
+
+.notification.fade-out {
+  opacity: 0; /* Class to fade out the notification */
+}
+
