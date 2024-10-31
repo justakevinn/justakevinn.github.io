@@ -2,7 +2,7 @@
   "reactions": [
     {
       "ID": "0",
-      "sequence": ["mCPBA", "TMABHOAc4", "LDACBr4", "DavisOxaziridine"],
+      "sequence": ["mCPBA", "TMABHOAc3", "LDACBr4", "DavisOxaziridine"],
       "reference": "Nat. Chem. 7, 604–607 (2015)."
     },
     {
@@ -58,7 +58,7 @@
     
     
   ],
-  "reagents": ["LDACBr4", "DavisOxaziridine", "TMABHOAc4", "mCPBA", 
+  "reagents": ["LDACBr4", "DavisOxaziridine", "TMABHOAc3", "mCPBA", 
                "AnaeriobicMukaiyama", "IsoprenylOAc", "CrO3TBAIO4", "Ms2ODMAPEt3N",
                "mesitylene", "DMP", "CH2OKOH", "MsClEt3NDBU",
                "PhSHAIBN", "POCl3Pyr", "SnCl4Methacrolein", "NaBH4",
