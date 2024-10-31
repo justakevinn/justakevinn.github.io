@@ -3,57 +3,69 @@
     {
       "ID": "0",
       "sequence": ["mCPBA", "TMABHOAc3", "LDACBr4", "DavisOxaziridine"],
-      "reference": "Nat. Chem. 7, 604–607 (2015)."
+      "reference": "Nat. Chem. 7, 604–607 (2015).",
+      "difficuly": "medium"
     },
     {
       "ID": "1",
       "sequence": ["AnaeriobicMukaiyama", "IsoprenylOAc", "CrO3TBAIO4", "Ms2ODMAPEt3N"],
-      "reference": "J. Am. Chem. Soc. 2023, 145, 15714"
+      "reference": "J. Am. Chem. Soc. 2023, 145, 15714",
+      "difficuly": "medium"
+      
     },
     {
       "ID": "2",
       "sequence": ["mesitylene", "DMP", "CH2OKOH", "MsClEt3NDBU"],
-      "reference": "J. Am. Chem. Soc. 2023, 145, 20634"
+      "reference": "J. Am. Chem. Soc. 2023, 145, 20634",
+      "difficuly": "medium"
     },
     {
       "ID": "3",
       "sequence": ["PhSHAIBN", "POCl3Pyr", "SnCl4Methacrolein", "NaBH4"],
-      "reference" : "J. Org. Chem. 2001, 66, 8843"
+      "reference" : "J. Org. Chem. 2001, 66, 8843",
+      "difficuly": "medium"
     },
     {
       "ID": "4",
       "sequence": ["LDACO2", "methylphosphoylide", "COCl2", "iPr2NEt"],
-      "reference" : "Tet. Lett. 1985, 26, 3535"
+      "reference" : "Tet. Lett. 1985, 26, 3535",
+      "difficuly": "medium"
     },
     {
       "ID": "5",
       "sequence": ["MeLi", "HClMeOH", "NH2NH2", "240C"],
-      "reference" : "J. Am. Chem. Soc. 1970, 92, 5657"
+      "reference" : "J. Am. Chem. Soc. 1970, 92, 5657",
+      "difficuly": "medium"
     },
     {
       "ID": "6",
       "sequence": ["Zn", "mCPBA", "oxalicacid", "NaOH"],
-      "reference" : "J. Org. Chem. 1989, 54, 681"
+      "reference" : "J. Org. Chem. 1989, 54, 681",
+      "difficuly": "medium"
     },
     {
       "ID": "7",
       "sequence": ["OsO4", "TsClPyr", "KOtBu", "methylphosphoylide"],
-      "reference" : "J. Am. Chem. Soc. 1966, 88, 4113; J. Am. Chem. Soc. 1969, 91, 6473"
+      "reference" : "J. Am. Chem. Soc. 1966, 88, 4113; J. Am. Chem. Soc. 1969, 91, 6473",
+      "difficuly": "medium"
     },
     {
       "ID": "8",
       "sequence": ["propenyllithium", "PDC", "EtAlCl2", "CH2OMe2AlCl"],
-      "reference" : "J. Org. Chem. 1993, 58, 1030"
+      "reference" : "J. Org. Chem. 1993, 58, 1030",
+      "difficuly": "medium"
     },
     {
       "ID": "9",
       "sequence": ["TiCl4CH2Br2", "tBuLiDMF", "NaBH4", "triethylorthoacetate"],
-      "reference" : "J. Am. Chem. Soc. 2021, 143, 18287"
+      "reference" : "J. Am. Chem. Soc. 2021, 143, 18287",
+      "difficuly": "medium"
     },
     {
       "ID": "10",
       "sequence": ["aminophenylaziridine", "Bu3SnHAIBN", "Swern", "MeMgBrTiCl4"],
-      "reference" : "Bull. Korean Chem. Soc. 1999, Vol. 20, No. 3"
+      "reference" : "Bull. Korean Chem. Soc. 1999, Vol. 20, No. 3",
+      "difficuly": "medium"
     }
     
     
