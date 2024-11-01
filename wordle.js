@@ -23,7 +23,6 @@ var previousIsForward;
 
 // Ensure the window is fully loaded before running scripts
 window.onload = function () {
-  setDaily();
   // Add event listeners for all buttons and add event listeners
   const gearIcon = document.getElementById('gearIcon');
   const aboutIcon = document.getElementById('aboutIcon');
@@ -34,16 +33,15 @@ window.onload = function () {
   closeButton.addEventListener('click', hideAboutModal); // Close and hide the about modal
   saveButton.addEventListener('click', saveSettings);  // Save settings and hide modal
   cancelButton.addEventListener('click', cancelSettings); // Cancel settings and hide modal
-
-
   // Load onto daily problem
+  setDaily();
   fetchParametersAndInitialize(); // Calls function to open the menu modal
 };
 
 
-
-
+///////////////////////////////////////////////////////////////////////////
 //////////////////////////////////MODALS///////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
 
 ///////Settings///////
 
@@ -124,8 +122,9 @@ function hideAboutModal() {
   }
 }
 
-
-////////////INITIALIZE///////////
+////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////INITIALIZE////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
 function initializeBoard(answer, reagents, reference) {
   row = 0; //Reset row to 0
@@ -259,7 +258,6 @@ function createColumn(data, columnNumber) {
   return column;
 }
 
-
 // Function to create boxes for intermediates
 function createIntermediate(columnNumber) {
   const intermediate = document.createElement('span');
@@ -310,6 +308,7 @@ function createStart() {
 
   return start;
 }
+
 //Functions to create keyboard buttons
 function createEnter() {
   const enter = document.createElement('span');
@@ -546,7 +545,6 @@ function dailyReactionID() {
 function setDailyReactionID(){
   dailyID = dailyReactionID();
   document.getElementById('reactionID').value = dailyID; // Set the value of the input box to the random ID
-
 }
 
 function setDaily(){
