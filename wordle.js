@@ -2,7 +2,7 @@
 var width = 4; //number of reactions (always 4)
 var row = 0; //current guess (current attempt #)
 var col = 0; //current "letter" for the attempt
-var numChoices = 4; //Number of reagents shown on the "keyboard"
+var numChoices = 14; //Number of reagents shown on the "keyboard"
 var intermediatesRevealed = { first: false, second: false, third: false };
 var takingInput = true; //Turn to false while animating to avoid extra input
 var gameOver = false;
@@ -219,13 +219,16 @@ function shuffleArray(array) {
   }
 }
 
+
+
 function generateReagents(allReagents, answer, x) {
   let reagents = [...answer];
-  allReagents.forEach(reagent => {
-    if (reagents.length < x && !answer.includes(reagent)) {
-      reagents.push(reagent);
+  while (reagents.length < x) {
+    let randomReagent = allReagents[Math.floor(Math.random() * allReagents.length)];
+    if (!reagents.includes(randomReagent)) {
+      reagents.push(randomReagent);
     }
-  });
+  }
   shuffleArray(reagents);
   return reagents;
 }
@@ -555,6 +558,3 @@ function setDaily(){
       reactionID = dailyReactionID();
     })
 }
-
-
-
