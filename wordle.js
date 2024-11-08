@@ -26,6 +26,10 @@ var previousDifficulty;
 // Ensure the window is fully loaded before running scripts
 window.onload = function () {
   // Add event listeners for all buttons and add event listeners
+  // Check orientation on page load
+  window.addEventListener('load', checkOrientation);
+  // Listen for orientation changes
+  window.addEventListener('resize', checkOrientation);
   const gearIcon = document.getElementById('gearIcon');
   const aboutIcon = document.getElementById('aboutIcon');
   const saveButton = document.getElementById('saveSettings');
@@ -104,13 +108,11 @@ function saveSettings() {
   const guessesInput = document.getElementById('numGuesses').value;
   const directionInput = document.getElementById('direction').value;
   const difficultyInput = document.getElementById('difficulty').value;
-  console.log(difficultyInput);
 
   reactionID = reactionInput ? parseInt(reactionInput) : 0;
   numGuesses = guessesInput ? parseInt(guessesInput) : 4;
   isForward = directionInput === 'forward';
   difficulty = difficultyInput === 'hard';
-  console.log(difficulty);
   const board = document.getElementById('board');
   const keyboard = document.getElementById('keyboard');
   board.innerHTML = '';  // Clears the old board
@@ -220,7 +222,6 @@ function fetchParametersAndInitialize(){
       const maxReactionID = data.reactions.length - 1; // Calculate max based on the JSON data
       const reactionSlider = document.getElementById("reactionID");
       reactionSlider.max = maxReactionID; // Set the max attribute of the slider
-      console.log(answer);
       width = answer.length;
       if (!isForward) answer.reverse();
       const reagents = generateReagents(allReagents, answer, numChoices);
@@ -753,4 +754,15 @@ function stopFireworks() {
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     canvas.style.display = 'none';
+}
+
+function checkOrientation() {
+  const rotateMessage = document.getElementById('rotate-message');
+  if (window.innerHeight > window.innerWidth) {
+      // Portrait mode
+      rotateMessage.style.display = 'flex';
+  } else {
+      // Landscape mode
+      rotateMessage.style.display = 'none';
+  }
 }

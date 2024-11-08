@@ -377,3 +377,27 @@ button#closeButton {
   right: 1vw; /* Scales position from the right */
 }
 
+/* Overlay styling */
+.rotate-message {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 1.5em;
+  z-index: 1000;
+  display: none; /* Hidden by default */
+}
+
+/* Only show the message in portrait mode */
+@media only screen and (orientation: portrait) {
+  .rotate-message {
+      display: flex; /* Show message when in portrait mode */
+  }
+}
