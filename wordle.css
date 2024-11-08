@@ -213,26 +213,28 @@ hr {
 
 .gear-icon {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 2vw; /* Position from the top, scales with viewport */
+  right: 2vw; /* Right position for the gear icon */
   cursor: pointer;
 }
 
 .gear-icon img {
-  width: 40px;
-  height: 40px;
+  width: 3vw; /* Adjust size relative to viewport width */
+  height: auto; /* Maintain aspect ratio */
+  max-width: 50px; /* Set a maximum width */
 }
 
 .about-icon {
   position: absolute;
-  top: 10px;
-  right: 60px;
+  top: 2vw; /* Position from the top, scales with viewport */
+  right: 6vw; /* Right position for the gear icon */
   cursor: pointer;
 }
 
 .about-icon img {
-  width: 40px;
-  height: 40px;
+  width: 3vw; /* Adjust size relative to viewport width */
+  height: auto; /* Maintain aspect ratio */
+  max-width: 50px; /* Set a maximum width */
 }
 
 .modal-buttons {
@@ -246,6 +248,11 @@ button {
   border: none; /* Remove default border */
   border-radius: 5px; /* Round the corners */
   cursor: pointer; /* Change cursor to pointer */
+}
+
+button#closeButton {
+  font-size: 1.5vw; /* Close button font size */
+  padding: 1vw 2vw; /* Padding scales with viewport */
 }
 
 #saveSettings {
@@ -271,28 +278,39 @@ button {
   display: none;  /* Hidden by default */
   position: fixed;
   z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Dimming effect */
-  justify-content: center;
-  align-items: center;
-
-  max-width: 1000px; /* Optional: limit max width */
+  left: 50%;
+  top: 50%;
+  width: 80vw; /* Width relative to viewport width */
+  max-width: 1000px; /* Optional: limit maximum width */
   height: auto; /* Allow height to adjust based on content */
-  max-height: 80%; /* Optional: limit max height */
-  border-radius: 8px; /* Rounded corners */
+  max-height: 80vh; /* Limit height relative to viewport height */
+  border-radius: 1vw; /* Rounded corners, scales with viewport */
+  padding: 2vw; /* Padding relative to viewport */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Shadow effect */
+  background-color: white;
   transform: translate(-50%, -50%); /* Center the modal */
   overflow-y: auto; /* Allow scrolling if content is too tall */
-  padding: 20px; /* Add padding for content spacing */
+}
+
+.aboutModal p, ul, ol {
+  font-size: 1.5vw; 
+  line-height: 2vw; 
+  text-align: center;
+}
+
+.aboutModal h2 {
+  font-size: 2.5vw;
+  line-height: 2vw; 
+}
+
+#fireworks {
+  pointer-events: none; /* Allow clicks to pass through to underlying elements */
 }
 
 #gameOverModal {
   display: none;  /* Hidden by default */
   position: fixed;
-  z-index: 1;
+  z-index: 2;
   left: 0px;
   top: 0px;
   width: 100%;

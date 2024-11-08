@@ -2,7 +2,7 @@
 var width = 4; //number of reactions (always 4 for difficult reactions)
 var row = 0; //current guess (current attempt #)
 var col = 0; //current "letter" for the attempt
-var numChoices = 14; //Number of reagents shown on the "keyboard"
+var numChoices = 14; //Number of reagents shown on the "keyboard" Full keyboard = 14, minimum = 4
 var intermediatesRevealed;
 var takingInput = true; //Turn to false while animating to avoid extra input
 var gameOver = false;
@@ -448,6 +448,7 @@ function hideGameOverModal() {
 // Function to show the settings/modal
 function playAgain() {
   hideGameOverModal(); // Hide the game over modal first
+  stopFireworks();
   showSettingsModal(); // Call the function to open the settings/modal
 }
 
@@ -464,14 +465,15 @@ function checkGameover() {
   if (gameOver) {
     setTimeout(function () {
       showGameOverModal("Success in " + row.toString() + " generation(s)!");
-    }, 1000);
+      showFireworks();
+    }, 500);
     return;
   }
   if (row == numGuesses - 1) {
     gameOver = true;
     setTimeout(function () {
       showGameOverModal("Game over!");
-    }, 1000);
+    }, 500);
   }
 }
 
@@ -624,3 +626,131 @@ function setIntermediatesRevealed(width){
     }
     return dict;
   }
+
+// Fireworks variables
+let fireworks = [];
+let animationId;
+
+// Set up the fireworks canvas
+function setupFireworksCanvas() {
+    const canvas = document.getElementById('fireworks');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    canvas.style.display = 'block'; // Show the canvas
+}
+
+window.addEventListener('resize', setupFireworksCanvas);
+
+// Particle and Firework classes based on the provided code
+class Particle {
+    constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.velocity = {
+            x: (Math.random() - 0.5) * 12,
+            y: (Math.random() - 0.5) * 12
+        };
+        this.alpha = 1;
+        this.friction = 0.95;
+    }
+
+    draw(ctx) {
+        ctx.globalAlpha = this.alpha;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 2, 0, Math.PI * 2, false);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+    }
+
+    update() {
+        this.velocity.x *= this.friction;
+        this.velocity.y *= this.friction;
+        this.x += this.velocity.x;
+        this.y += this.velocity.y;
+        this.alpha -= 0.01;
+    }
+}
+
+class Firework {
+    constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.velocity = { x: 0, y: Math.random() * -6 - 0.5 };
+        this.particles = [];
+        this.lifespan = 150;
+        this.hasExploded = false;
+    }
+
+    draw(ctx) {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 3, 0, Math.PI * 2, false);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+    }
+
+    explode() {
+        for (let i = 0; i < 25; i++) {
+            this.particles.push(new Particle(this.x, this.y, this.color));
+        }
+    }
+
+    update(ctx) {
+        this.lifespan--;
+
+        if (this.lifespan <= 0 && !this.hasExploded) {
+            this.explode();
+            this.velocity = { x: 0, y: 0 };
+            this.hasExploded = true;
+        } else if (this.lifespan > 0) {
+            this.y += this.velocity.y;
+        }
+
+        this.particles.forEach((particle, index) => {
+            particle.update();
+            particle.draw(ctx);
+            if (particle.alpha <= 0) this.particles.splice(index, 1);
+        });
+    }
+}
+
+// Function to animate fireworks
+function animateFireworks() {
+    const canvas = document.getElementById('fireworks');
+    const ctx = canvas.getContext('2d');
+    animationId = requestAnimationFrame(animateFireworks);
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.02)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    fireworks.forEach((firework, index) => {
+        firework.update(ctx);
+        firework.draw(ctx);
+
+        if (firework.lifespan <= 0 && firework.particles.every(p => p.alpha <= 0)) {
+            fireworks.splice(index, 1);
+        }
+    });
+
+    if (Math.random() < 0.015) {
+        const x = Math.random() * canvas.width;
+        const color = `hsl(${Math.random() * 360}, 50%, 50%)`;
+        fireworks.push(new Firework(x, canvas.height, color));
+    }
+}
+
+// Start fireworks animation on game over
+function showFireworks() {
+    setupFireworksCanvas();
+    animateFireworks();
+}
+
+// Stop fireworks and clear canvas
+function stopFireworks() {
+    cancelAnimationFrame(animationId);
+    fireworks = [];
+    const canvas = document.getElementById('fireworks');
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    canvas.style.display = 'none';
+}
