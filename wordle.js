@@ -3,7 +3,7 @@ var width = 4; //number of reactions (always 4 for difficult reactions)
 var row = 0; //current guess (current attempt #)
 var col = 0; //current "letter" for the attempt
 var numChoices = 14; //Number of reagents shown on the "keyboard"
-var intermediatesRevealed = { first: false, second: false, third: false };
+var intermediatesRevealed;
 var takingInput = true; //Turn to false while animating to avoid extra input
 var gameOver = false;
 let maxReactionID;
@@ -47,7 +47,6 @@ window.onload = function () {
   guessSlider.addEventListener('input', function () {
     guessValueDisplay.textContent = guessSlider.value;
   });
-  getMaxReactionID();
   setDailyReactionID();
 
    // Load onto daily problem
@@ -212,31 +211,25 @@ function initializeBoard(answer, reagents, reference) {
 
 function fetchParametersAndInitialize(){
   const jsonFile = difficulty ? "Hard/reactions.json" : "Easy/reactions.json";  // Set the appropriate JSON file based on difficulty
-
   fetch(jsonFile)
     .then(response => response.json())
     .then(data => {
       const allReagents = data.reagents;
       let answer = data.reactions[reactionID].sequence;
-
-      if (difficulty) { // For harder difficulty, handle references
-        let reference = data.reactions[reactionID].reference;
-        width = answer.length;
-        if (!isForward) answer.reverse();
-        const reagents = generateReagents(allReagents, answer, numChoices);
-        initializeBoard(answer, reagents, reference);  // Initialize board after fetching data
-      } else { // For easy difficulty, width might be different
-        width = answer.length;
-        if (!isForward) answer.reverse();
-        const reagents = generateReagents(allReagents, answer, numChoices);
-        initializeBoard(answer, reagents, "none");  // "none" as placeholder if no reference
-      }
+      let reference = data.reactions[reactionID].reference;
+      const maxReactionID = data.reactions.length - 1; // Calculate max based on the JSON data
+      const reactionSlider = document.getElementById("reactionID");
+      reactionSlider.max = maxReactionID; // Set the max attribute of the slider
+      console.log(answer);
+      width = answer.length;
+      if (!isForward) answer.reverse();
+      const reagents = generateReagents(allReagents, answer, numChoices);
+      intermediatesRevealed = setIntermediatesRevealed(width);
+      initializeBoard(answer, reagents, reference);  // Initialize board after fetching data
     })
     .catch(error => console.error('Error fetching data:', error));
 }
   
-
-
 
 //---------------------------- HELPER FUNCTIONS  ----------------------------//
 function getRandomInt(max) {
@@ -253,13 +246,21 @@ function shuffleArray(array) {
 
 
 function generateReagents(allReagents, answer, x) {
-  let reagents = [...answer];
+  // Remove duplicates from `answer` and `allReagents`
+  const uniqueAnswer = [...new Set(answer)];
+  const uniqueReagentsPool = [...new Set(allReagents)].filter(r => !uniqueAnswer.includes(r));
+
+  // Start with the unique answer reagents
+  let reagents = [...uniqueAnswer];
+
+  // Fill `reagents` with random, unique reagents from `uniqueReagentsPool` until it reaches `x` length
   while (reagents.length < x) {
-    let randomReagent = allReagents[Math.floor(Math.random() * allReagents.length)];
+    let randomReagent = uniqueReagentsPool[Math.floor(Math.random() * uniqueReagentsPool.length)];
     if (!reagents.includes(randomReagent)) {
       reagents.push(randomReagent);
     }
   }
+
   shuffleArray(reagents);
   return reagents;
 }
@@ -403,7 +404,7 @@ function update() {
             currTile.classList.add("correct");
             keyboardKey.classList.add("correct");
             correct += 1;
-            revealIntermediate(c);
+            revealIntermediate(c, width-1);
           } else if (answer.includes(letter)) {
             if (!keyboardKey.classList.contains("correct")) {
               keyboardKey.classList.add("present");
@@ -474,23 +475,24 @@ function checkGameover() {
   }
 }
 
-function revealIntermediate(c) {
+function revealIntermediate(c, numIntermediates) {
+  // Ensure intermediatesRevealed has the correct length
+  if (!Array.isArray(intermediatesRevealed) || intermediatesRevealed.length !== numIntermediates) {
+    intermediatesRevealed = Array(numIntermediates).fill(false);
+  }
+
   if (isForward) {
-    if (c == 0 && !intermediatesRevealed.first) {
-      revealIntermediateHelper(0);
-    } else if (c == 1 && !intermediatesRevealed.second) {
-      revealIntermediateHelper(1);
-    } else if (c == 2 && !intermediatesRevealed.third) {
-      revealIntermediateHelper(2);
+    // Forward mode: reveal based on index `c`
+    if (c < numIntermediates && !intermediatesRevealed[c]) {
+      revealIntermediateHelper(c);
+      intermediatesRevealed[c] = true;
     }
   } else {
-    // Reverse the order for backward mode
-    if (c == 0 && !intermediatesRevealed.third) {
-      revealIntermediateHelper(2);
-    } else if (c == 1 && !intermediatesRevealed.second) {
-      revealIntermediateHelper(1);
-    } else if (c == 2 && !intermediatesRevealed.first) {
-      revealIntermediateHelper(0);
+    // Reverse mode: reveal in reverse order
+    const reverseIndex = numIntermediates - c - 1;
+    if (reverseIndex >= 0 && reverseIndex < numIntermediates && !intermediatesRevealed[reverseIndex]) {
+      revealIntermediateHelper(reverseIndex);
+      intermediatesRevealed[reverseIndex] = true;
     }
   }
 }
@@ -501,7 +503,7 @@ function revealIntermediateHelper(index) {
   if(difficulty){
     path = "Hard/Reactions/" + reactionID.toString() + "/int" + index + ".png";
   }else{
-    path = "Hard/Reactions/" + reactionID.toString() + "/int" + index + ".png";
+    path = "Easy/Reactions/" + reactionID.toString() + "/int" + index + ".png";
   }
   intermediate.innerHTML = `<img src=` + path + ` alt="${intermediate}">`;
   intermediate.classList.add("flip");
@@ -605,25 +607,20 @@ function setDailyReactionID(){
     .then(response => response.json())
     .then(data => {
       maxReactionID = data.reactions.length - 1; // Set maxReactionID based on the number of reactions
-      console.log(maxReactionID);
       dailyID = dailyReactionID(maxReactionID);
       reactionID = dailyID;
       document.getElementById('IDValue').textContent = dailyID;
       document.getElementById('reactionID').value = dailyID; // Set the value of the input box to the daily
     })
-    
-    
-  
 }
 
 
-function getMaxReactionID(){
-  fetch("Hard/reactions.json")
-    .then(response => response.json())
-    .then(data => {
-      const maxReactionID = data.reactions.length - 1; // Calculate max based on the JSON data
-      const reactionSlider = document.getElementById("reactionID");
-      reactionSlider.max = maxReactionID; // Set the max attribute of the slider
-    })
-    .catch(error => console.error("Error fetching reaction data:", error));
-}
+
+
+function setIntermediatesRevealed(width){
+    const dict = {};
+    for (let i = 0; i < width-1; i++) {
+      dict[`int${i}`] = false;
+    }
+    return dict;
+  }

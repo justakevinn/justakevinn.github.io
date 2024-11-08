@@ -2,25 +2,115 @@
   "reactions": [
     {
       "ID": "0",
-      "sequence": ["AnaeriobicMukaiyama", "IsoprenylOAc", "CrO3TBAIO4", "Ms2ODMAPEt3N"],
-      "reference": "J. Am. Chem. Soc. 2023, 145, 15714"
+      "sequence": ["NH3NaBH3CN", "O3Me2S","H+NaBH3CN"],
+      "reference": "No Reference"
+    },
+    {
+      "ID": "1",
+      "sequence": ["NaNH21BromoButane", "HgSO4"],
+      "reference": "No Reference"
+    },
+    {
+      "ID": "2",
+      "sequence": ["KOtBu", "Grubbs"],
+      "reference": "No Reference"
+    },
+    {
+      "ID": "3",
+      "sequence": ["NaNH21BromoButane", "Na0NH3"],
+      "reference": "No Reference"
+    },
+    {
+      "ID": "4",
+      "sequence": ["O3Me2S", "CoreyFuchs"],
+      "reference": "No Reference"
+    },
+    {
+      "ID": "5",
+      "sequence": ["Br2", "xsKOH"],
+      "reference": "No Reference"
+    },
+    {
+      "ID": "6",
+      "sequence": ["POCl3", "mCPBA"],
+      "reference": "No Reference"
+    },
+    {
+      "ID": "7",
+      "sequence": ["POCl3", "Br2"],
+      "reference": "No Reference"
+    },
+    {
+      "ID": "8",
+      "sequence": ["NaNH21BromoButane", "H2Lindlar", "BH3H2O2"],
+      "reference": "No Reference"
+    },
+    {
+      "ID": "9",
+      "sequence": ["HBrH2O2", "NaH"],
+      "reference": "No Reference"
+    },
+    {
+      "ID": "10",
+      "sequence": ["O3Me2S", "NaBH4", "NaH2CH3Br", "EtMgBr"],
+      "reference": "No Reference"
+    },
+    {
+      "ID": "11",
+      "sequence": ["Mg0", "acetone", "O3Me2S", "NaBH4"],
+      "reference": "No Reference"
+    },
+    {
+      "ID": "12",
+      "sequence": ["POCl3", "O3Me2S", "NaBH4"],
+      "reference": "No Reference"
+    },
+    {
+      "ID": "13",
+      "sequence": ["TBSCl", "PhMgBr", "TBAF"],
+      "reference": "No Reference"
+    },
+    {
+      "ID": "14",
+      "sequence": ["PBr3", "Mg0", "formaldehyde", "Swern"],
+      "reference": "No Reference"
+    },
+    {
+      "ID": "15",
+      "sequence": ["Cl2AlCl3", "HNO3H2SO4", "Cl2AlCl3"],
+      "reference": "No Reference"
+    },
+    {
+      "ID": "16",
+      "sequence": ["MeClAlCl3", "HNO3H2SO4", "Br2FeBr3"],
+      "reference": "No Reference"
+    },
+    {
+      "ID": "17",
+      "sequence": ["MeClAlCl3", "Br2FeBr3", "KMnO4", "Br2FeBr3"],
+      "reference": "No Reference"
+    },
+    {
+      "ID": "18",
+      "sequence": ["butyrlchlorideAlCl3", "LAH", "PBr3"],
+      "reference": "No Reference"
     }
+    
+
   ],
-  "reagents": ["LDACBr4", "DavisOxaziridine", "TMABHOAc3", "mCPBA",
-               "AnaeriobicMukaiyama", "IsoprenylOAc", "CrO3TBAIO4", "Ms2ODMAPEt3N",
-               "mesitylene", "DMP", "CH2OKOH", "MsClEt3NDBU",
-               "PhSHAIBN", "POCl3Pyr", "SnCl4Methacrolein", "NaBH4",
-               "LDACO2", "methylphosphoylide", "COCl2", "iPr2NEt",
-               "MeLi", "HClMeOH", "NH2NH2", "240C",
-               "Zn", "mCPBA", "oxalicacid", "NaOH",
-               "OsO4", "TsClPyr", "KOtBu", "methylphosphoylide",
-               "propenyllithium", "PDC", "EtAlCl2", "CH2OMe2AlCl",
-               "TiCl4CH2Br2", "tBuLiDMF", "NaBH4", "triethylorthoacetate",
-               "aminophenylaziridine", "Bu3SnHAIBN", "Swern", "MeMgBrTiCl4",
-               "CuICsOAc", "Pd2dba3alkene", "PhSHNBS",
-               "TMPTBSOTf", "mesitylene150pTsOH", "NaBH4tBuOKMeI", "LDAO2SnCl2",
-               "SeO2tBuOOH", "DMPRhCl3", "KOtBuO2POMe3",
-               "PBu3DEADButyricacid", "hvAcOH", "KMnO4Octanoic", "OsO4NMOCitricAcid"
+  "reagents": ["NH3NaBH3CN", "O3Me2S","H+NaBH3CN",
+                "NaNH21BromoButane", "HgSO4",
+                "KOtBu", "Grubbs",
+                "Na0NH3",
+                "O3Me2S", "CoreyFuchs",
+                "Br2", "xsKOH",
+                "POCl3", "mCPBA",
+                "HBrH2O2", "NaH",
+                "NaH2CH3Br", "EtMgBr",
+                "Cl2AlCl3", "HNO3H2SO4",
+                "MeClAlCl3", "Br2FeBr3",
+                "KMnO4",
+                "butyrlchlorideAlCl3", "LAH"
               ]
           
 }
