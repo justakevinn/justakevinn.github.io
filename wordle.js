@@ -1,5 +1,5 @@
 // General Parameters
-var width = 4; //number of reactions (always 4)
+var width = 4; //number of reactions (always 4 for difficult reactions)
 var row = 0; //current guess (current attempt #)
 var col = 0; //current "letter" for the attempt
 var numChoices = 14; //Number of reagents shown on the "keyboard"
@@ -12,11 +12,13 @@ let maxReactionID;
 var reactionID;
 var numGuesses = 4;  // Default number of guesses
 var isForward = false;  // Default direction is retro
+var difficulty = true; //True: Hard, False: Easy
 
 // Variables to hold the previous settings
 var previousReactionID;
 var previousNumGuesses;
 var previousIsForward;
+var previousDifficulty;
 
 
 //////////////////////////FUNCTIONS///////////////////////////
@@ -33,8 +35,22 @@ window.onload = function () {
   closeButton.addEventListener('click', hideAboutModal); // Close and hide the about modal
   saveButton.addEventListener('click', saveSettings);  // Save settings and hide modal
   cancelButton.addEventListener('click', cancelSettings); // Cancel settings and hide modal
-  // Load onto daily problem
-  setDaily();
+ 
+  const reactionSlider = document.getElementById('reactionID');
+  const IDValueDisplay = document.getElementById('IDValue');
+  const guessSlider = document.getElementById('numGuesses');
+  const guessValueDisplay = document.getElementById('guessValue');
+  // Event listener to update the slider value display
+  reactionSlider.addEventListener('input', function () {
+    IDValueDisplay.textContent = reactionSlider.value;
+  });
+  guessSlider.addEventListener('input', function () {
+    guessValueDisplay.textContent = guessSlider.value;
+  });
+  getMaxReactionID();
+  setDailyReactionID();
+
+   // Load onto daily problem
   fetchParametersAndInitialize(); // Calls function to open the menu modal
 };
 
@@ -53,6 +69,7 @@ function showSettingsModal() {
     previousReactionID = reactionID;
     previousNumGuesses = numGuesses;
     previousIsForward = isForward;
+    previousDifficulty = difficulty;
     modal.style.display = 'flex';  // Show modal
   }
 }
@@ -73,10 +90,12 @@ function cancelSettings() {
   reactionID = previousReactionID;
   numGuesses = previousNumGuesses;
   isForward = previousIsForward;
+  difficulty = previousDifficulty;
   // Optionally, reset the input fields in the modal
   document.getElementById('reactionID').value = previousReactionID;
   document.getElementById('numGuesses').value = previousNumGuesses;
   document.getElementById('direction').value = isForward ? 'forward' : 'retro';
+  document.getElementById('difficulty').value = difficulty ? 'easy' : 'hard';
   hideSettingsModal();
 }
 
@@ -85,11 +104,14 @@ function saveSettings() {
   const reactionInput = document.getElementById('reactionID').value;
   const guessesInput = document.getElementById('numGuesses').value;
   const directionInput = document.getElementById('direction').value;
+  const difficultyInput = document.getElementById('difficulty').value;
+  console.log(difficultyInput);
 
   reactionID = reactionInput ? parseInt(reactionInput) : 0;
-  console.log(reactionID);
   numGuesses = guessesInput ? parseInt(guessesInput) : 4;
   isForward = directionInput === 'forward';
+  difficulty = difficultyInput === 'hard';
+  console.log(difficulty);
   const board = document.getElementById('board');
   const keyboard = document.getElementById('keyboard');
   board.innerHTML = '';  // Clears the old board
@@ -138,8 +160,8 @@ function initializeBoard(answer, reagents, reference) {
   const board = document.getElementById('board');
   const keyboard = document.getElementById("keyboard");
   const fragment = document.createDocumentFragment();
-  const ref = document.createElement('div');
-  ref.classList.add('text'); // Add 'text' class for styling
+  const ref = document.getElementById("reference");
+  
   ref.textContent = reference;
 
 
@@ -181,8 +203,6 @@ function initializeBoard(answer, reagents, reference) {
   keyboardFragment.appendChild(createDelete());
   keyboard.appendChild(keyboardFragment);
   
-
-  board.appendChild(ref);
   
 
   // Event listeners
@@ -191,19 +211,30 @@ function initializeBoard(answer, reagents, reference) {
 }
 
 function fetchParametersAndInitialize(){
-  fetch("reactions.json")
+  const jsonFile = difficulty ? "Hard/reactions.json" : "Easy/reactions.json";  // Set the appropriate JSON file based on difficulty
+
+  fetch(jsonFile)
     .then(response => response.json())
     .then(data => {
       const allReagents = data.reagents;
       let answer = data.reactions[reactionID].sequence;
-      let reference = data.reactions[reactionID].reference;
-      if (!isForward) answer.reverse();
-      const reagents = generateReagents(allReagents, answer, numChoices);
 
-      initializeBoard(answer, reagents, reference);  // Initialize board after fetching data
+      if (difficulty) { // For harder difficulty, handle references
+        let reference = data.reactions[reactionID].reference;
+        width = answer.length;
+        if (!isForward) answer.reverse();
+        const reagents = generateReagents(allReagents, answer, numChoices);
+        initializeBoard(answer, reagents, reference);  // Initialize board after fetching data
+      } else { // For easy difficulty, width might be different
+        width = answer.length;
+        if (!isForward) answer.reverse();
+        const reagents = generateReagents(allReagents, answer, numChoices);
+        initializeBoard(answer, reagents, "none");  // "none" as placeholder if no reference
+      }
     })
     .catch(error => console.error('Error fetching data:', error));
-  }
+}
+  
 
 
 
@@ -276,7 +307,11 @@ function createProduct() {
 
   // Create the image element
   const image = document.createElement('img');
-  image.src = `Reactions/${reactionID.toString()}/product.png`;
+  if(difficulty){
+    image.src = `Hard/Reactions/${reactionID.toString()}/product.png`;
+  }else{
+    image.src = `Easy/Reactions/${reactionID.toString()}/product.png`;
+  }
   image.alt = 'Product Image'; // Update alt text for accessibility
 
   // Create the text element
@@ -297,7 +332,11 @@ function createStart() {
 
   // Create the image element
   const image = document.createElement('img');
-  image.src = `Reactions/${reactionID.toString()}/sm.png`;
+  if(difficulty){
+    image.src = `Hard/Reactions/${reactionID.toString()}/sm.png`;
+  }else{
+    image.src = `Easy/Reactions/${reactionID.toString()}/sm.png`;
+  }
   image.alt = 'Start Image'; // Update alt text for accessibility
 
   // Create the text element
@@ -333,7 +372,12 @@ function createDelete() {
 
 function createReagents(item) {
   const reagent = document.createElement('span');
-  let path = "Reagents/" + item + ".png";
+  let path;
+  if(difficulty){
+    path = "Hard/Reagents/" + item + ".png";
+  }else{
+    path = "Easy/Reagents/" + item + ".png";
+  }
   reagent.classList = 'reagent img';
   reagent.innerHTML = `<img src=` + path + ` alt="${item}">`;
   reagent.id = item;
@@ -453,7 +497,12 @@ function revealIntermediate(c) {
 
 function revealIntermediateHelper(index) {
   let intermediate = document.getElementById("int" + index);
-  let path = "Reactions/" + reactionID.toString() + "/int" + index + ".png";
+  let path;
+  if(difficulty){
+    path = "Hard/Reactions/" + reactionID.toString() + "/int" + index + ".png";
+  }else{
+    path = "Hard/Reactions/" + reactionID.toString() + "/int" + index + ".png";
+  }
   intermediate.innerHTML = `<img src=` + path + ` alt="${intermediate}">`;
   intermediate.classList.add("flip");
   intermediate.style.border = 'none';
@@ -483,7 +532,12 @@ function handleKeyboardInput(e) {
 function handleReagent(target) {
   if (col < width) {
     let currTile = document.getElementById(`${row}-${col}`);
-    currTile.innerHTML = `<img src="Reagents/${target.id}.png" alt="${target.id}">`;
+    if(difficulty){
+      currTile.innerHTML = `<img src="Hard/Reagents/${target.id}.png" alt="${target.id}">`;
+    }else{
+      currTile.innerHTML = `<img src="Easy/Reagents/${target.id}.png" alt="${target.id}">`;
+    }
+
     currTile.title = target.id;
     col++;
   }
@@ -537,24 +591,39 @@ function showNotification(message) {
   document.getElementById('reactionID').value = randomId; // Set the value of the input box to the random ID
 }*/
 
-function dailyReactionID() {
+function dailyReactionID(max) {
   const now = new Date();
   const start = new Date(now.getFullYear(), 0, 0);
   const dayOfYear = Math.floor((now - start) / (1000 * 60 * 60 * 24));
   const random = Math.sin(dayOfYear) * 10000;
-  return Math.floor((random - Math.floor(random)) * maxReactionID);
+  return Math.floor((random - Math.floor(random)) * max);
 }
 
 function setDailyReactionID(){
-  dailyID = dailyReactionID();
-  document.getElementById('reactionID').value = dailyID; // Set the value of the input box to the random ID
-}
-
-function setDaily(){
-  fetch("reactions.json")
+  let dailyID;
+  fetch("Hard/reactions.json")
     .then(response => response.json())
     .then(data => {
       maxReactionID = data.reactions.length - 1; // Set maxReactionID based on the number of reactions
-      reactionID = dailyReactionID();
+      console.log(maxReactionID);
+      dailyID = dailyReactionID(maxReactionID);
+      reactionID = dailyID;
+      document.getElementById('IDValue').textContent = dailyID;
+      document.getElementById('reactionID').value = dailyID; // Set the value of the input box to the daily
     })
+    
+    
+  
+}
+
+
+function getMaxReactionID(){
+  fetch("Hard/reactions.json")
+    .then(response => response.json())
+    .then(data => {
+      const maxReactionID = data.reactions.length - 1; // Calculate max based on the JSON data
+      const reactionSlider = document.getElementById("reactionID");
+      reactionSlider.max = maxReactionID; // Set the max attribute of the slider
+    })
+    .catch(error => console.error("Error fetching reaction data:", error));
 }

@@ -1,0 +1,26 @@
+{
+  "reactions": [
+    {
+      "ID": "0",
+      "sequence": ["AnaeriobicMukaiyama", "IsoprenylOAc", "CrO3TBAIO4", "Ms2ODMAPEt3N"],
+      "reference": "J. Am. Chem. Soc. 2023, 145, 15714"
+    }
+  ],
+  "reagents": ["LDACBr4", "DavisOxaziridine", "TMABHOAc3", "mCPBA",
+               "AnaeriobicMukaiyama", "IsoprenylOAc", "CrO3TBAIO4", "Ms2ODMAPEt3N",
+               "mesitylene", "DMP", "CH2OKOH", "MsClEt3NDBU",
+               "PhSHAIBN", "POCl3Pyr", "SnCl4Methacrolein", "NaBH4",
+               "LDACO2", "methylphosphoylide", "COCl2", "iPr2NEt",
+               "MeLi", "HClMeOH", "NH2NH2", "240C",
+               "Zn", "mCPBA", "oxalicacid", "NaOH",
+               "OsO4", "TsClPyr", "KOtBu", "methylphosphoylide",
+               "propenyllithium", "PDC", "EtAlCl2", "CH2OMe2AlCl",
+               "TiCl4CH2Br2", "tBuLiDMF", "NaBH4", "triethylorthoacetate",
+               "aminophenylaziridine", "Bu3SnHAIBN", "Swern", "MeMgBrTiCl4",
+               "CuICsOAc", "Pd2dba3alkene", "PhSHNBS",
+               "TMPTBSOTf", "mesitylene150pTsOH", "NaBH4tBuOKMeI", "LDAO2SnCl2",
+               "SeO2tBuOOH", "DMPRhCl3", "KOtBuO2POMe3",
+               "PBu3DEADButyricacid", "hvAcOH", "KMnO4Octanoic", "OsO4NMOCitricAcid"
+              ]
+          
+}
