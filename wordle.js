@@ -66,44 +66,6 @@ document.addEventListener('DOMContentLoaded', async function () {
   }
 });
 
-// Example of making `setDailyReactionID` async if it involves asynchronous operations
-async function setDailyReactionID() {
-  // Simulate async operation (e.g., fetching data or setting a value)
-  return new Promise(resolve => setTimeout(resolve, 1000));  // Placeholder for async logic
-}
-
-// Example of making `fetchParametersAndInitialize` async
-async function fetchParametersAndInitialize() {
-  try {
-    // Fetch data from the API
-    let response = await fetch('reactions');  
-
-    // Ensure the response is ok (status 200-299)
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-
-    // Parse the response JSON
-    let data = await response.json();
-
-    // Check if 'sequence' exists in the fetched data
-    if (data && data.sequence) {
-      // Proceed if 'sequence' exists
-      console.log('Fetched data sequence:', data.sequence);
-
-      // Initialize or process your data further here, for example:
-      // initializeGame(data.sequence);
-    } else {
-      // Log or handle case where 'sequence' is missing
-      console.error('Data does not contain the "sequence" property:', data);
-    }
-  } catch (error) {
-    // Handle any fetch-related or parsing errors
-    console.error('Failed to fetch parameters:', error);
-    // Optionally, show a user-friendly error message on the page
-  }
-}
-
 
 
 
@@ -260,24 +222,29 @@ function initializeBoard(answer, reagents, reference) {
   document.addEventListener("keydown", handleKeyboardInput);
 }
 
-function fetchParametersAndInitialize(){
+async function fetchParametersAndInitialize() {
   const jsonFile = difficulty ? "Hard/reactions.json" : "Easy/reactions.json";  // Set the appropriate JSON file based on difficulty
-  fetch(jsonFile)
-    .then(response => response.json())
-    .then(data => {
-      const allReagents = data.reagents;
-      let answer = data.reactions[reactionID].sequence;
-      let reference = data.reactions[reactionID].reference;
-      const maxReactionID = data.reactions.length - 1; // Calculate max based on the JSON data
-      const reactionSlider = document.getElementById("reactionID");
-      reactionSlider.max = maxReactionID; // Set the max attribute of the slider
-      width = answer.length;
-      if (!isForward) answer.reverse();
-      const reagents = generateReagents(allReagents, answer, numChoices);
-      intermediatesRevealed = setIntermediatesRevealed(width);
-      initializeBoard(answer, reagents, reference);  // Initialize board after fetching data
-    })
-    .catch(error => console.error('Error fetching data:', error));
+  try {
+    const response = await fetch(jsonFile);  // Wait for the fetch response
+    const data = await response.json();  // Wait for the JSON to be parsed
+    const allReagents = data.reagents;
+    const answer = data.reactions[reactionID].sequence;
+    const reference = data.reactions[reactionID].reference;
+    const maxReactionID = data.reactions.length - 1; // Calculate max based on the JSON data
+    
+    const reactionSlider = document.getElementById("reactionID");
+    reactionSlider.max = maxReactionID; // Set the max attribute of the slider
+    width = answer.length;
+    
+    if (!isForward) answer.reverse();
+    
+    const reagents = generateReagents(allReagents, answer, numChoices);
+    intermediatesRevealed = setIntermediatesRevealed(width);
+    
+    initializeBoard(answer, reagents, reference);  // Initialize board after fetching data
+  } catch (error) {
+    console.error('Error fetching data:', error);  // Handle errors gracefully
+  }
 }
   
 
@@ -654,19 +621,20 @@ function dailyReactionID(max) {
   return Math.floor((random - Math.floor(random)) * max);
 }
 
-function setDailyReactionID(){
-  let dailyID;
-  fetch("Hard/reactions.json")
-    .then(response => response.json())
-    .then(data => {
-      maxReactionID = data.reactions.length - 1; // Set maxReactionID based on the number of reactions
-      dailyID = dailyReactionID(maxReactionID);
-      reactionID = dailyID;
-      document.getElementById('IDValue').textContent = dailyID;
-      document.getElementById('reactionID').value = dailyID; // Set the value of the input box to the daily
-    })
-}
+async function setDailyReactionID() {
+  try {
+    const response = await fetch("Hard/reactions.json");  // Fetch the reactions.json file
+    const data = await response.json();  // Wait for the JSON to be parsed
+    const maxReactionID = data.reactions.length - 1; // Set maxReactionID based on the number of reactions
+    const dailyID = dailyReactionID(maxReactionID);  // Get the daily reaction ID
 
+    reactionID = dailyID;
+    document.getElementById('IDValue').textContent = dailyID;  // Update the displayed ID value
+    document.getElementById('reactionID').value = dailyID; // Set the value of the input box to the daily ID
+  } catch (error) {
+    console.error('Error setting daily reaction ID:', error);  // Handle errors gracefully
+  }
+}
 
 
 
