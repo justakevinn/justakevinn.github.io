@@ -23,39 +23,70 @@ var previousDifficulty;
 
 //////////////////////////FUNCTIONS///////////////////////////
 
-// Ensure the window is fully loaded before running scripts
-window.onload = function () {
-  // Add event listeners for all buttons and add event listeners
-  // Check orientation on page load
+document.addEventListener('DOMContentLoaded', async function () {
+  // Check orientation on page load and listen for orientation changes
   window.addEventListener('load', checkOrientation);
-  // Listen for orientation changes
   window.addEventListener('resize', checkOrientation);
+
+  // Safely add event listeners only if elements exist
   const gearIcon = document.getElementById('gearIcon');
   const aboutIcon = document.getElementById('aboutIcon');
   const saveButton = document.getElementById('saveSettings');
-  const cancelButton = document.getElementById('cancelButton'); // Select cancel button
-  gearIcon.addEventListener('click', showSettingsModal);  // Show Settings modal
-  aboutIcon.addEventListener('click', showAboutModal);  // Show About modal
-  closeButton.addEventListener('click', hideAboutModal); // Close and hide the about modal
-  saveButton.addEventListener('click', saveSettings);  // Save settings and hide modal
-  cancelButton.addEventListener('click', cancelSettings); // Cancel settings and hide modal
- 
+  const cancelButton = document.getElementById('cancelButton');
+  const closeButton = document.getElementById('closeButton');
   const reactionSlider = document.getElementById('reactionID');
   const IDValueDisplay = document.getElementById('IDValue');
   const guessSlider = document.getElementById('numGuesses');
   const guessValueDisplay = document.getElementById('guessValue');
-  // Event listener to update the slider value display
-  reactionSlider.addEventListener('input', function () {
-    IDValueDisplay.textContent = reactionSlider.value;
-  });
-  guessSlider.addEventListener('input', function () {
-    guessValueDisplay.textContent = guessSlider.value;
-  });
-  setDailyReactionID();
 
-   // Load onto daily problem
-  fetchParametersAndInitialize(); // Calls function to open the menu modal
-};
+  // Add event listeners if elements are found
+  if (gearIcon) gearIcon.addEventListener('click', showSettingsModal);
+  if (aboutIcon) aboutIcon.addEventListener('click', showAboutModal);
+  if (closeButton) closeButton.addEventListener('click', hideAboutModal);
+  if (saveButton) saveButton.addEventListener('click', saveSettings);
+  if (cancelButton) cancelButton.addEventListener('click', cancelSettings);
+
+  // Set up slider event listeners if sliders exist
+  if (reactionSlider && IDValueDisplay) {
+    reactionSlider.addEventListener('input', function () {
+      IDValueDisplay.textContent = reactionSlider.value;
+    });
+  }
+  if (guessSlider && guessValueDisplay) {
+    guessSlider.addEventListener('input', function () {
+      guessValueDisplay.textContent = guessSlider.value;
+    });
+  }
+
+  // Initialize with daily parameters and load default content
+  try {
+    await setDailyReactionID();  // If this is async, wait for it to complete
+    await fetchParametersAndInitialize();  // If this is async, wait for it to complete
+  } catch (error) {
+    console.error('Error during initialization:', error);
+  }
+});
+
+// Example of making `setDailyReactionID` async if it involves asynchronous operations
+async function setDailyReactionID() {
+  // Simulate async operation (e.g., fetching data)
+  return new Promise(resolve => setTimeout(resolve, 1000));  // Placeholder for your async logic
+}
+
+// Example of making `fetchParametersAndInitialize` async
+async function fetchParametersAndInitialize() {
+  try {
+    // Fetch data or perform async initialization tasks
+    let response = await fetch('your-api-endpoint');  // Example of an async operation
+    let data = await response.json();  // Handle the fetched data
+    // Initialize using fetched data, e.g., setting up parameters
+  } catch (error) {
+    console.error('Failed to fetch parameters:', error);
+    throw error;  // Rethrow the error to be caught in the outer try-catch
+  }
+}
+
+
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -163,7 +194,7 @@ function initializeBoard(answer, reagents, reference) {
   const fragment = document.createDocumentFragment();
   const ref = document.getElementById("reference");
   
-  ref.textContent = reference;
+  ref.innerHTML = reference;
 
 
   //First column
@@ -591,10 +622,11 @@ function showNotification(message) {
 }
 
 
-/*function randomizeReactionId() {
+function randomizeReactionId() {
   const randomId = Math.floor(Math.random() * (maxReactionID + 1)); // Generate a random ID between 0 and maxReactionID
   document.getElementById('reactionID').value = randomId; // Set the value of the input box to the random ID
-}*/
+  document.getElementById('IDValue').textContent = randomId;
+}
 
 function dailyReactionID(max) {
   const now = new Date();

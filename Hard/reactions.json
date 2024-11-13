@@ -3,107 +3,107 @@
     {
       "ID": "0",
       "sequence": ["mCPBA", "TMABHOAc3", "LDACBr4", "DavisOxaziridine"],
-      "reference": "Nat. Chem. 2015, 7, 604"
+      "reference": "<i>Nat. Chem.</i> <b>2015</b>, <i>7</i>, 604"
     },
     {
       "ID": "1",
       "sequence": ["AnaeriobicMukaiyama", "IsoprenylOAc", "CrO3TBAIO4", "Ms2ODMAPEt3N"],
-      "reference": "J. Am. Chem. Soc. 2023, 145, 15714"
+      "reference": "<i>J. Am. Chem. Soc.</i> <b>2023</b>, <i>145</i>, 15714"
     },
     {
       "ID": "2",
       "sequence": ["mesitylene", "DMP", "CH2OKOH", "MsClEt3NDBU"],
-      "reference": "J. Am. Chem. Soc. 2023, 145, 20634"
+      "reference": "<i>J. Am. Chem. Soc.</i> <b>2023</b>, <i>145</i>, 20634"
     },
     {
       "ID": "3",
       "sequence": ["PhSHAIBN", "POCl3Pyr", "SnCl4Methacrolein", "NaBH4"],
-      "reference" : "J. Org. Chem. 2001, 66, 8843"
+      "reference" : "<i>J. Org. Chem. </i><b>2001</b>, <i>66</i>, 8843"
     },
     {
       "ID": "4",
       "sequence": ["LDACO2", "methylphosphoylide", "COCl2", "iPr2NEt"],
-      "reference" : "Tet. Lett. 1985, 26, 3535"
+      "reference" : "<i>Tet. Lett.</i> <b>1985</b>, <i>26</i>, 3535"
     },
     {
       "ID": "5",
       "sequence": ["MeLi", "HClMeOH", "NH2NH2", "240C"],
-      "reference" : "J. Am. Chem. Soc. 1970, 92, 5657"
+      "reference" : "<i>J. Am. Chem. Soc.</i> <b>1970</b>, <i>92</i>, 5657"
     },
     {
       "ID": "6",
       "sequence": ["Zn", "mCPBA", "oxalicacid", "NaOH"],
-      "reference" : "J. Org. Chem. 1989, 54, 681"
+      "reference" : "<i>J. Org. Chem.</i> <b>1989</b>, <i>54</i>, 681"
     },
     {
       "ID": "7",
       "sequence": ["OsO4", "TsClPyr", "KOtBu", "methylphosphoylide"],
-      "reference" : "J. Am. Chem. Soc. 1966, 88, 4113; J. Am. Chem. Soc. 1969, 91, 6473"
+      "reference" : "<i>J. Am. Chem. Soc.</i> <b>1966</b>, <i>88</i>, 4113; <i>J. Am. Chem. Soc.</i> <b>1969</b>, <i>91</i>, 6473"
     },
     {
       "ID": "8",
       "sequence": ["propenyllithium", "PDC", "EtAlCl2", "CH2OMe2AlCl"],
-      "reference" : "J. Org. Chem. 1993, 58, 1030"
+      "reference" : "<i>J. Org. Chem.</i> <b>1993</b>, <i>58</i>, 1030"
     },
     {
       "ID": "9",
       "sequence": ["TiCl4CH2Br2", "tBuLiDMF", "NaBH4", "triethylorthoacetate"],
-      "reference" : "J. Am. Chem. Soc. 2021, 143, 18287"
+      "reference" : "<i>J. Am. Chem. Soc.</i> <b>2021</b>, <i>143</i>, 18287"
     },
     {
       "ID": "10",
       "sequence": ["aminophenylaziridine", "Bu3SnHAIBN", "Swern", "MeMgBrTiCl4"],
-      "reference" : "Bull. Korean Chem. Soc. 1999, Vol. 20, No. 3"
+      "reference" : "<i>Bull. Korean Chem. Soc.</i> <b>1999</b>, <i>20</i>, 3"
     },
     {
       "ID": "11",
       "sequence": ["CuICsOAc", "Pd2dba3alkene", "PhSHNBS", "CuICsOAc"],
-      "reference" : "J. Am. Chem. Soc. 2006, 128, 7136"
+      "reference" : "<i>J. Am. Chem. Soc.</i> <b>2006</b>, <i>128</i>, 7136"
     },
     {
       "ID": "12",
       "sequence": ["TMPTBSOTf", "mesitylene150pTsOH", "NaBH4tBuOKMeI", "LDAO2SnCl2"],
-      "reference" : "J. Am. Chem. Soc. 2023, 145, 3903"
+      "reference" : "<i>J. Am. Chem. Soc.</i> <b>2023</b>, <i>145</i>, 3903"
     },
     {
       "ID": "13",
       "sequence": ["SeO2tBuOOH", "DMPRhCl3", "KOtBuO2POMe3", "NaBH4"],
-      "reference" : "J. Am. Chem. Soc. 2004, 126, 16300"
+      "reference" : "<i>J. Am. Chem. Soc.</i> <b>2004</b>, <i>126</i>, 16300"
     },
     {
       "ID": "14",
       "sequence": ["PBu3DEADButyricacid", "hvAcOH", "KMnO4Octanoic", "OsO4NMOCitricAcid"],
-      "reference": "ACS Cent. Sci. 2017, 3, 47"
+      "reference": "<i>ACS Cent. Sci.</i> <b>2017</b>, <i>3</i>, 47"
     },
     {
       "ID": "15",
       "sequence": ["Ac2ODMAP", "CuOAcbutynylpivalate", "KOtBu", "MsClEt3N"],
-      "reference": "Angew. Chem., Int. Ed. 2023, 62, e202303537"
+      "reference": "<i>Angew. Chem., Int. Ed. </i> <b>2023</b>, <i>62</i>, e202303537"
     },
     {
       "ID": "16",
       "sequence": ["DMP", "NaClO2NaH2PO4", "4PPYTsClEt3N", "LiAlH4nBu4NF"],
-      "reference": "Angew. Chem. Int. Ed. 2022, 61, e202200576"
+      "reference": "<i>Angew. Chem. Int. Ed.</i> <b>2022</b>, <i>61</i>, e202200576"
     },
     {
       "ID": "17",
       "sequence": ["mCPBA", "TFAA", "Na2S4", "NaBH4"],
-      "reference": "J. Am. Chem. Soc. 2013, 135, 1209"
+      "reference": "<i>J. Am. Chem. Soc.</i> <b>2013</b>, <i>135</i>, 1209"
     },
     {
       "ID": "18",
       "sequence": ["BBr3", "PdOAc2CuOAc2AcOH", "panisidinePdOAc2", "TIPSClDBU"],
-      "reference": "Org. Lett. 2024, 26, 5243"
+      "reference": "<i> Org. Lett.</i> <b>2024 </b>, <i>26</i>, 5243"
     },
     {
       "ID": "19",
       "sequence": ["BnOHNaH", "PhLiGlycidylEtherBF3", "TIPSOtf26lutidine", "catTsOH"],
-      "reference": "Org. Lett. 2015, 17, 5634"
+      "reference": "<i>Org. Lett.</i> <b>2015</b>, <i>17</i>, 5634"
     },
     {
       "ID": "20",
       "sequence": ["AlMe3", "NaIO4TBAIO4", "PPh3CBr4", "nBuLiCH2O"],
-      "reference": "J. Am. Chem. Soc. 2023, 145, 18240"
+      "reference": "<i>J. Am. Chem. Soc.</i> <b>2023</b>, <i>145</i>, 18240"
     }
 
   ],
