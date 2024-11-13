@@ -22,7 +22,6 @@ var previousDifficulty;
 
 
 //////////////////////////FUNCTIONS///////////////////////////
-
 document.addEventListener('DOMContentLoaded', async function () {
   // Check orientation on page load and listen for orientation changes
   window.addEventListener('load', checkOrientation);
@@ -60,8 +59,8 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   // Initialize with daily parameters and load default content
   try {
-    await setDailyReactionID();  // If this is async, wait for it to complete
-    await fetchParametersAndInitialize();  // If this is async, wait for it to complete
+    await setDailyReactionID();  // Wait for async operation
+    await fetchParametersAndInitialize();  // Wait for data fetching and initialization
   } catch (error) {
     console.error('Error during initialization:', error);
   }
@@ -69,20 +68,39 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 // Example of making `setDailyReactionID` async if it involves asynchronous operations
 async function setDailyReactionID() {
-  // Simulate async operation (e.g., fetching data)
-  return new Promise(resolve => setTimeout(resolve, 1000));  // Placeholder for your async logic
+  // Simulate async operation (e.g., fetching data or setting a value)
+  return new Promise(resolve => setTimeout(resolve, 1000));  // Placeholder for async logic
 }
 
 // Example of making `fetchParametersAndInitialize` async
 async function fetchParametersAndInitialize() {
   try {
-    // Fetch data or perform async initialization tasks
-    let response = await fetch('your-api-endpoint');  // Example of an async operation
-    let data = await response.json();  // Handle the fetched data
-    // Initialize using fetched data, e.g., setting up parameters
+    // Fetch data from the API
+    let response = await fetch('reactions');  
+
+    // Ensure the response is ok (status 200-299)
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    // Parse the response JSON
+    let data = await response.json();
+
+    // Check if 'sequence' exists in the fetched data
+    if (data && data.sequence) {
+      // Proceed if 'sequence' exists
+      console.log('Fetched data sequence:', data.sequence);
+
+      // Initialize or process your data further here, for example:
+      // initializeGame(data.sequence);
+    } else {
+      // Log or handle case where 'sequence' is missing
+      console.error('Data does not contain the "sequence" property:', data);
+    }
   } catch (error) {
+    // Handle any fetch-related or parsing errors
     console.error('Failed to fetch parameters:', error);
-    throw error;  // Rethrow the error to be caught in the outer try-catch
+    // Optionally, show a user-friendly error message on the page
   }
 }
 
