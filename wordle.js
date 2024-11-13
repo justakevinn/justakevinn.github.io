@@ -449,7 +449,7 @@ function hideGameOverModal() {
 // Function to show the settings/modal
 function playAgain() {
   hideGameOverModal(); // Hide the game over modal first
-  stopFireworks();
+  //stopFireworks();
   showSettingsModal(); // Call the function to open the settings/modal
 }
 
@@ -466,7 +466,7 @@ function checkGameover() {
   if (gameOver) {
     setTimeout(function () {
       showGameOverModal("Success in " + row.toString() + " generation(s)!");
-      showFireworks();
+      //showFireworks();
     }, 500);
     return;
   }
@@ -649,8 +649,8 @@ class Particle {
         this.y = y;
         this.color = color;
         this.velocity = {
-            x: (Math.random() - 0.5) * 12,
-            y: (Math.random() - 0.5) * 12
+            x: (Math.random() - 0.5) * 20,
+            y: (Math.random() - 0.5) * 20
         };
         this.alpha = 1;
         this.friction = 0.95;
@@ -669,7 +669,7 @@ class Particle {
         this.velocity.y *= this.friction;
         this.x += this.velocity.x;
         this.y += this.velocity.y;
-        this.alpha -= 0.01;
+        this.alpha -= 0.02;
     }
 }
 
@@ -678,9 +678,9 @@ class Firework {
         this.x = x;
         this.y = y;
         this.color = color;
-        this.velocity = { x: 0, y: Math.random() * -6 - 0.5 };
+        this.velocity = { x: 0, y: Math.random() * -8 - 3 };
         this.particles = [];
-        this.lifespan = 150;
+        this.lifespan = 80;
         this.hasExploded = false;
     }
 
@@ -733,10 +733,11 @@ function animateFireworks() {
         }
     });
 
-    if (Math.random() < 0.015) {
-        const x = Math.random() * canvas.width;
+    if (Math.random() < 0.02) {
+        const x = canvas.width / 2 + (Math.random() - 0.5) * canvas.width * 0.4;
+        const y = canvas.height;
         const color = `hsl(${Math.random() * 360}, 50%, 50%)`;
-        fireworks.push(new Firework(x, canvas.height, color));
+        fireworks.push(new Firework(x, y, color));
     }
 }
 

@@ -3,7 +3,7 @@
 <CDXML
  CreationProgram="ChemDraw 23.1.1.3"
  Name="ReagentBoxDONOTRESIZE.cdxml"
- BoundingBox="424.19 243.68 635.33 332.91"
+ BoundingBox="219.08 149.79 430.89 239.67"
  WindowPosition="0 0"
  WindowSize="0 0"
  FractionalWidths="yes"
@@ -19,7 +19,7 @@
  ShowTerminalCarbonLabels="no"
  ShowNonTerminalCarbonLabels="no"
  HideImplicitHydrogens="no"
- Magnification="812"
+ Magnification="1141"
  LabelFont="239"
  LabelSize="21.6"
  LabelFace="96"
@@ -113,8 +113,9 @@
 </colortable><fonttable>
 <font id="239" charset="x-mac-roman" name="Helvetica Neue"/>
 <font id="245" charset="x-mac-roman" name="Helvetica Neue Light"/>
+<font id="246" charset="x-mac-roman" name="Helvetica Neue Light Italic"/>
 </fonttable><page
- id="1176476654"
+ id="1176477929"
  BoundingBox="0 0 2532.48 1648.64"
  HeaderPosition="36"
  FooterPosition="36"
@@ -122,24 +123,25 @@
  HeightPages="2"
  WidthPages="2"
 ><t
- id="1176476652"
- p="529.76 284.59"
- BoundingBox="483.57 261.05 575.95 315.53"
- Z="56"
+ id="1176477927"
+ p="324.91 187.25"
+ BoundingBox="288.75 171.50 361.22 217.96"
+ Z="137"
+ Warning="ChemDraw can&apos;t interpret this label."
  CaptionJustification="Center"
  Justification="Center"
  LineHeight="auto"
- LineStarts="4 11"
-><s font="245" size="21.6" color="0" face="96">H+,
-NaBH3CN</s></t><graphic
+ LineStarts="7 14"
+><s font="246" size="21.6" color="0" face="98">n</s><s font="245" size="21.6" color="0" face="96">-BuLi
+(CH2O)</s><s font="245" size="21.6" color="0" face="32">n</s></t><graphic
  id="1176473239"
- BoundingBox="633.14 330.71 426.38 245.87"
- Z="7"
+ BoundingBox="428.37 237.15 221.61 152.31"
+ Z="3"
  GraphicType="Rectangle"
  RectangleType="Plain"
- Center3D="529.76 288.29 0"
- MajorAxisEnd3D="633.14 288.29 0"
- MinorAxisEnd3D="529.76 330.71 0"
+ Center3D="324.99 194.73 0"
+ MajorAxisEnd3D="428.37 194.73 0"
+ MinorAxisEnd3D="324.99 237.15 0"
 /><annotation
  Keyword="Fragment Label"
  Content="[I]"

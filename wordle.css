@@ -27,12 +27,14 @@ hr {
 }
 
 #title {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 3vw;
+  font-family: Helvetica;
+  font-size: 2.25vw;
   font-weight: bold;
   letter-spacing: 0.02vw;
   margin-bottom: var(--spacing); /* Reduced spacing below the title */
 }
+
+
 
 #board {
   display: flex;
@@ -358,7 +360,7 @@ button#closeButton {
 
 .scrippslogo,
 .shenvilogo {
-  width: 15vw; /* Set width relative to viewport width for scaling */
+  width: 20vw; /* Set width relative to viewport width for scaling */
   max-width: 400px; /* Maximum width limit */
   min-width: 100px; /* Minimum width limit */
   height: auto; /* Maintain aspect ratio */
