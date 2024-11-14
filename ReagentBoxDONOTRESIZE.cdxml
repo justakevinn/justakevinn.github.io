@@ -3,7 +3,7 @@
 <CDXML
  CreationProgram="ChemDraw 23.1.1.3"
  Name="ReagentBoxDONOTRESIZE.cdxml"
- BoundingBox="219.08 149.79 430.89 239.67"
+ BoundingBox="298.73 201.72 510.53 291.60"
  WindowPosition="0 0"
  WindowSize="0 0"
  FractionalWidths="yes"
@@ -113,9 +113,8 @@
 </colortable><fonttable>
 <font id="239" charset="x-mac-roman" name="Helvetica Neue"/>
 <font id="245" charset="x-mac-roman" name="Helvetica Neue Light"/>
-<font id="246" charset="x-mac-roman" name="Helvetica Neue Light Italic"/>
 </fonttable><page
- id="1176477929"
+ id="2095440043"
  BoundingBox="0 0 2532.48 1648.64"
  HeaderPosition="36"
  FooterPosition="36"
@@ -123,32 +122,31 @@
  HeightPages="2"
  WidthPages="2"
 ><t
- id="1176477927"
- p="324.91 187.25"
- BoundingBox="288.75 171.50 361.22 217.96"
- Z="137"
+ id="2095440041"
+ p="362.69 252.32"
+ BoundingBox="364.25 236.90 445.01 256.43"
+ Z="561"
  Warning="ChemDraw can&apos;t interpret this label."
- CaptionJustification="Center"
- Justification="Center"
  LineHeight="auto"
- LineStarts="7 14"
-><s font="246" size="21.6" color="0" face="98">n</s><s font="245" size="21.6" color="0" face="96">-BuLi
-(CH2O)</s><s font="245" size="21.6" color="0" face="32">n</s></t><graphic
+><s font="245" size="21.6" color="0" face="96">Raney Ni</s></t><graphic
  id="1176473239"
- BoundingBox="428.37 237.15 221.61 152.31"
+ BoundingBox="508.01 289.08 301.25 204.24"
  Z="3"
  GraphicType="Rectangle"
  RectangleType="Plain"
- Center3D="324.99 194.73 0"
- MajorAxisEnd3D="428.37 194.73 0"
- MinorAxisEnd3D="324.99 237.15 0"
+ Center3D="404.63 246.66 0"
+ MajorAxisEnd3D="508.01 246.66 0"
+ MinorAxisEnd3D="404.63 289.08 0"
 /><annotation
  Keyword="Fragment Label"
  Content="[I]"
 /><annotation
  Keyword="GUID"
- Content="9328c81e-2e20-46b1-a0c0-02bea6ee49a2"
+ Content="5F03ACB0-39CA-44FD-957C-167E5574D9EE"
 /><annotation
  Keyword="Name"
- Content="Scissors"
+ Content="DNA (3)"
+/><annotation
+ Keyword="Type"
+ Content="stnd."
 /></page></CDXML>
