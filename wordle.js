@@ -6,7 +6,7 @@ var numChoices = 14; //Number of reagents shown on the "keyboard" Full keyboard 
 var intermediatesRevealed;
 var takingInput = true; //Turn to false while animating to avoid extra input
 var gameOver = false;
-let maxReactionID;
+var maxReactionID;
 
 // Variables that the user can change
 var reactionID;
@@ -109,7 +109,7 @@ function cancelSettings() {
   document.getElementById('reactionID').value = previousReactionID;
   document.getElementById('numGuesses').value = previousNumGuesses;
   document.getElementById('direction').value = isForward ? 'forward' : 'retro';
-  document.getElementById('difficulty').value = difficulty ? 'easy' : 'hard';
+  document.getElementById('difficulty').value = difficulty ? 'hard' : 'easy';
   hideSettingsModal();
 }
 
@@ -230,7 +230,7 @@ async function fetchParametersAndInitialize() {
     const allReagents = data.reagents;
     const answer = data.reactions[reactionID].sequence;
     const reference = data.reactions[reactionID].reference;
-    const maxReactionID = data.reactions.length - 1; // Calculate max based on the JSON data
+    maxReactionID = data.reactions.length - 1; // Calculate max based on the JSON data
     
     const reactionSlider = document.getElementById("reactionID");
     reactionSlider.max = maxReactionID; // Set the max attribute of the slider
@@ -625,7 +625,7 @@ async function setDailyReactionID() {
   try {
     const response = await fetch("Hard/reactions.json");  // Fetch the reactions.json file
     const data = await response.json();  // Wait for the JSON to be parsed
-    const maxReactionID = data.reactions.length - 1; // Set maxReactionID based on the number of reactions
+    maxReactionID = data.reactions.length - 1; // Set maxReactionID based on the number of reactions
     const dailyID = dailyReactionID(maxReactionID);  // Get the daily reaction ID
 
     reactionID = dailyID;
@@ -646,134 +646,6 @@ function setIntermediatesRevealed(width){
     return dict;
   }
 
-// Fireworks variables
-let fireworks = [];
-let animationId;
-
-// Set up the fireworks canvas
-function setupFireworksCanvas() {
-    const canvas = document.getElementById('fireworks');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    canvas.style.display = 'block'; // Show the canvas
-}
-
-window.addEventListener('resize', setupFireworksCanvas);
-
-// Particle and Firework classes based on the provided code
-class Particle {
-    constructor(x, y, color) {
-        this.x = x;
-        this.y = y;
-        this.color = color;
-        this.velocity = {
-            x: (Math.random() - 0.5) * 20,
-            y: (Math.random() - 0.5) * 20
-        };
-        this.alpha = 1;
-        this.friction = 0.95;
-    }
-
-    draw(ctx) {
-        ctx.globalAlpha = this.alpha;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, 2, 0, Math.PI * 2, false);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-    }
-
-    update() {
-        this.velocity.x *= this.friction;
-        this.velocity.y *= this.friction;
-        this.x += this.velocity.x;
-        this.y += this.velocity.y;
-        this.alpha -= 0.02;
-    }
-}
-
-class Firework {
-    constructor(x, y, color) {
-        this.x = x;
-        this.y = y;
-        this.color = color;
-        this.velocity = { x: 0, y: Math.random() * -8 - 3 };
-        this.particles = [];
-        this.lifespan = 80;
-        this.hasExploded = false;
-    }
-
-    draw(ctx) {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, 3, 0, Math.PI * 2, false);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-    }
-
-    explode() {
-        for (let i = 0; i < 25; i++) {
-            this.particles.push(new Particle(this.x, this.y, this.color));
-        }
-    }
-
-    update(ctx) {
-        this.lifespan--;
-
-        if (this.lifespan <= 0 && !this.hasExploded) {
-            this.explode();
-            this.velocity = { x: 0, y: 0 };
-            this.hasExploded = true;
-        } else if (this.lifespan > 0) {
-            this.y += this.velocity.y;
-        }
-
-        this.particles.forEach((particle, index) => {
-            particle.update();
-            particle.draw(ctx);
-            if (particle.alpha <= 0) this.particles.splice(index, 1);
-        });
-    }
-}
-
-// Function to animate fireworks
-function animateFireworks() {
-    const canvas = document.getElementById('fireworks');
-    const ctx = canvas.getContext('2d');
-    animationId = requestAnimationFrame(animateFireworks);
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.02)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    fireworks.forEach((firework, index) => {
-        firework.update(ctx);
-        firework.draw(ctx);
-
-        if (firework.lifespan <= 0 && firework.particles.every(p => p.alpha <= 0)) {
-            fireworks.splice(index, 1);
-        }
-    });
-
-    if (Math.random() < 0.02) {
-        const x = canvas.width / 2 + (Math.random() - 0.5) * canvas.width * 0.4;
-        const y = canvas.height;
-        const color = `hsl(${Math.random() * 360}, 50%, 50%)`;
-        fireworks.push(new Firework(x, y, color));
-    }
-}
-
-// Start fireworks animation on game over
-function showFireworks() {
-    setupFireworksCanvas();
-    animateFireworks();
-}
-
-// Stop fireworks and clear canvas
-function stopFireworks() {
-    cancelAnimationFrame(animationId);
-    fireworks = [];
-    const canvas = document.getElementById('fireworks');
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    canvas.style.display = 'none';
-}
 
 function checkOrientation() {
   const rotateMessage = document.getElementById('rotate-message');
@@ -785,3 +657,4 @@ function checkOrientation() {
       rotateMessage.style.display = 'none';
   }
 }
+

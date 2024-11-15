@@ -360,7 +360,7 @@ button#closeButton {
 
 .scrippslogo,
 .shenvilogo {
-  width: 20vw; /* Set width relative to viewport width for scaling */
+  width: 15vw; /* Set width relative to viewport width for scaling */
   max-width: 400px; /* Maximum width limit */
   min-width: 100px; /* Minimum width limit */
   height: auto; /* Maintain aspect ratio */
