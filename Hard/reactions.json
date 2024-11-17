@@ -42,7 +42,7 @@
     },
     {
       "ID": "8",
-      "sequence": ["propenyllithium", "PDC", "EtAlCl2", "CH2OMe2AlCl"],
+      "sequence": ["propenyllithium", "PCC", "EtAlCl2", "CH2OMe2AlCl"],
       "reference" : "<i>J. Org. Chem.</i> <b>1993</b>, <i>58</i>, 1030"
     },
     {
@@ -92,7 +92,7 @@
     },
     {
       "ID": "18",
-      "sequence": ["BBr3", "PdOAc2CuOAc2AcOH", "panisidinePdOAc2", "TIPSClDBU"],
+      "sequence": ["TIPSClDBU", "panisidinePdOAc2", "PdOAc2CuOAc2AcOH","BBr3"],
       "reference": "<i> Org. Lett.</i> <b>2024 </b>, <i>26</i>, 5243"
     },
     {
@@ -172,7 +172,7 @@
     },
     {
       "ID": "34",
-      "sequence": ["PIFAMeOH", "vinylgrignardthenPhNMe2AcCl", "silylketeneacetalTMSCH2MgCl", "HCl"],
+      "sequence": ["PIFAMeOH", "MeNHNHMeTf2O", "silylketeneacetalTMSCH2MgCl", "HCl"],
       "reference": "<i>J. Am. Chem. Soc.</i> <b>2024</b>, <i>146</i>, 26351"
     },
     {
@@ -212,7 +212,7 @@
                "MeLi", "HClMeOH", "NH2NH2", "240C",
                "Zn", "mCPBA", "oxalicacid", "NaOH",
                "OsO4", "TsClPyr", "KOtBu", "methylphosphoylide",
-               "propenyllithium", "PDC", "EtAlCl2", "CH2OMe2AlCl",
+               "propenyllithium", "EtAlCl2", "CH2OMe2AlCl",
                "TiCl4CH2Br2", "tBuLiDMF", "NaBH4", "triethylorthoacetate",
                "aminophenylaziridine", "Bu3SnHAIBN", "Swern", "MeMgBrTiCl4",
                "CuICsOAc", "Pd2dba3alkene", "PhSHNBS",
